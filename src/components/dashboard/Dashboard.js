@@ -195,7 +195,7 @@ export default function Dashboard() {
         <Divider className={classes.whitecolor}/>
         <List>{<SecondaryListItems/>}</List>
       </Drawer> */}
-      <SideDrawer/>
+      <SideDrawer text={"Dashboard"}/>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>

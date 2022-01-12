@@ -11,10 +11,11 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import TableRow from '@material-ui/core/TableRow';
 import SideDrawer from '../NavBars/SideDrawer';
-import Fab from '@material-ui/core/Fab';
-import EditIcon from '@material-ui/icons/Edit';
+import EditTwoToneIcon from '@material-ui/icons/EditTwoTone';
+import { Box, Fab } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
-import { green, blue } from '@material-ui/core/colors';
+import EditItemDialog from '../forms/EditItem';
+import Item from './itemRow';
 
 const useStyles = makeStyles((theme)=>({
   roott: {
@@ -57,6 +58,10 @@ const useStyles = makeStyles((theme)=>({
       marginTop: theme.spacing(10),
       maxWidth: 1080
     },
+    fabStyle: {
+      height: '20',
+      width: '20'
+    },
     tableheadrow: {
       "& .MuiTableCell-head": {
            color: "white",
@@ -70,53 +75,65 @@ const useStyles = makeStyles((theme)=>({
           backgroundColor: '#0d324d',
           // backgroundImage: 'linear-gradient(315deg, #637081 0%, #7c98b3 74%)'
         },
+    totalrowI: {
+      backgroundColor:'#d2d8d6',
+      backgroundImage: 'linear-gradient(315deg, #d2d8d6 0%, #dce8e0 74%)',
+      color: 'whitesmoke'
+    },
+    totalrowE: {
+      backgroundColor:'#637081',
+      backgroundImage: 'linear-gradient(315deg, #637081 0%, #7c98b3 74%)',
+      color: 'whitesmoke'
+    },
+    fontsummary: {
+      fontFamily: 'cursive', fontStyle: 'oblique', fontSize: '18px', fontWeight: '700'
+    }
+    
        
       }));
 
-function createData(name, amount, date, type) {
-  return { name, amount, date, type };
+function createData(name, amount, date, type, editing, id) {
+  return { name, amount, date, type, editing, id };
 }
 
 const rows = [
-  createData('fruits', 100.24, '12/11/2021', 1),
-  createData('sweets', 200.24, '13/11/2021', 0),
-  createData('fruits', 300.24, '12/12/2021', 1),
-  createData('cosmetics', 400.24, '12/10/2021', 1),
-  createData('meat', 500.2, '12/11/2020', 1),
-  createData('sex', 600.24, '15/01/2019', 0),
-  createData('electricity bill', 700.24, '26/11/2021', 0),
-  createData('fruits', 800.24, '13/11/2021', 1),
-  createData('fruits', 900.00, '12/09/2020', 1),
-  createData('dry fruits', 150.24, '12/11/2022', 0),
-  createData('puja samaan', 250.24, '12/11/2024', 1),
-  createData('fruits', 350.24, '12/11/2025', 1),
-  createData('flowers', 450.24, '12/11/2024', 0),
-  createData('fruits', 550.24, '12/11/2029', 0),
+  createData('fruits', 100.24, '12/11/2021', 1, false, 1),
+  createData('sweets', 200.24, '13/11/2021', 0, false, 2),
+  createData('fruits', 300.24, '12/12/2021', 1, false, 3),
+  createData('cosmetics', 400.24, '12/10/2021', 1, false, 4),
+  createData('meat', 500.2, '12/11/2020', 1, false, 5),
+  createData('sex', 600.24, '15/01/2019', 0, false, 6),
+  createData('electricity bill', 700.24, '26/11/2021', 0,false, 7),
+  createData('fruits', 400, '13/11/2021', 1,false, 8),
+  createData('fruits', 900.00, '12/09/2020', 1,false, 9),
+  createData('dry fruits', 150.24, '12/11/2022', 0,false, 10),
+  createData('puja samaan', 250.24, '12/11/2024', 1,false, 11),
+  createData('fruits', 350.24, '12/11/2025', 1, false, 12),
+  createData('flowers', 450.24, '12/11/2024', 0, false, 13),
+  createData('fruits', 550.24, '12/11/2029', 0, false, 14),
 
 ];
-
 const columns = [
   { id: 'name', label: 'Item', minWidth: 170 },
-  { id: 'amount', label: 'Amount', minWidth: 170,  format: (value) => value.toFixed(2) },
+  { id: 'amount', label: 'Amount', minWidth: 170, format: (value) => Number(value) },
   { id: 'date', label: 'Date', minWidth: 170, align: 'right', format: (value) => value.toLocaleString('en-IN') },
-  { id: 'edit', label: 'Edit', minWidth: 170, align: 'right' },
+  { id: 'edit', label: 'Edit', minWidth: 140, align: 'right' },
 ];
-
 function ItemsTable()
 {
   const styles = useStyles();
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(rows);
   const [order, setOrder] = useState(true); //asc==true desc=false
   const [sortBy, setsortBy] = useState('date');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-
-  useEffect(() => {
-    setData(rows);
-    return () => {
-      return rows;
-    }
-  }, [])
+  const [isEditing, setEditing] = useState(false);
+  // useEffect(() => {
+  //   setData(rows);
+  //   return () => {
+  //     return rows;
+  //   }
+  // }, [])
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -124,9 +141,22 @@ function ItemsTable()
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-
+  function compareDates(d1, d2){
+    var parts =d1.split('/');
+    var d1 = Number(parts[2] + parts[1] + parts[0]);
+    parts = d2.split('/');
+    var d2 = Number(parts[2] + parts[1] + parts[0]);
+     if(d1 >= d2)
+       return 1;
+     else return -1;
+    }
   function comparator(a,b,sortBy)
   {
+    console.log(a[sortBy], b[sortBy])
+    if(sortBy === 'date')
+    {
+      return compareDates(a[sortBy], b[sortBy]);
+    }
     if(a[sortBy] > b[sortBy])
     return 1;
     else if(a[sortBy] < b[sortBy])
@@ -137,46 +167,97 @@ function ItemsTable()
   const handleSort = (array, order, sortBy) => {
     setOrder(!order);
     setsortBy(sortBy);
-    // var arr = [];
-    // arr = array;
     array.sort(order ? (a,b) => comparator(a,b,sortBy) : (a,b) => -comparator(a,b,sortBy));
     setData(array);
     console.log(data);
   }
-
+  
+  function subtotalExpense(items) {
+    return items.filter(item => !item.type).map(({amount}) => amount).reduce((sum, i) => sum + i, 0);
+  }
+  function subtotalIncome(items) {
+    return items.filter(item => item.type).map(({amount}) => amount).reduce((sum, i) => sum + i, 0);
+  }
+  const handleRowEditing = (rowId) => {
+    if(isEditing)
+    {
+        const editingRows = rows.map(row => 
+        row.id === rowId ? {...row, editing: true} : row);
+        setData(editingRows);
+    }
+  }
+  const editItem = (rowId, newName, newAmount, newDate) => {
+      const updatedRows = rows.map(row => 
+      row.id === rowId ? {...row, name: newName, amount: newAmount, date: newDate} : row);
+      setData(updatedRows);
+  }
+  const expenseSubtotal = subtotalExpense(data);
+  const incomeSubtotal = subtotalIncome(data);
 
     return (
-        <div className={styles.roott}>
-            <SideDrawer/>
-            <main className={styles.content}>
-                <div className={styles.appBarSpacer}>
-                    <Paper className={styles.paper}>
+        // <div className={styles.roott}>
+        //     <SideDrawer/>
+        //     <main className={styles.content}>
+        //         <div className={styles.appBarSpacer}>
+                    // <Paper className={styles.paper}>
+                      <>
                         <TableContainer className={styles.tablecontainer}>
                           <Table aria-label="sticky table">
                             <TableHead>
                               <TableRow className={styles.tableheadrow}>
-                                {columns.map((column) => ( <TableCell key={column.id} align={column.align} style={{ minWidth: column.minWidth }} onClick={()=>handleSort(rows, order, column.id)}>
-                                                              {/* <TableSortLabel active={sortBy === column.id} direction={sortBy === column.id ? order : 'asc'}
-                                                                              onClick={()=>handleSort(rows,order,)} classes={{root: styles.root, active: styles.active}}>
-                                                              </TableSortLabel> */}
-                                                              {column.label}
-                                                          </TableCell> ))}
+                                <TableCell align="left" style={{ minWidth: columns[0].minWidth}} onClick={()=>handleSort(rows, order, columns[0].id)}> 
+                                  {columns[0].label}
+                                </TableCell>
+                                <TableCell align={columns[1].align} style={{ minWidth: columns[1].minWidth}} onClick={()=>handleSort(rows, order, columns[1].id)}> 
+                                  {columns[1].label}
+                                </TableCell>
+                                <TableCell align={columns[2].align} style={{ minWidth: columns[2].minWidth}} onClick={()=>handleSort(rows, order, columns[2].id)}> 
+                                  {columns[2].label}
+                                </TableCell>
+                                <TableCell align={columns[3].align} style={{ minWidth: columns[3].minWidth}}> 
+                                  {columns[3].label}
+                                </TableCell>
                               </TableRow>
                             </TableHead>
                             <TableBody>
-                              {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+                              {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                               return (
-                          
-                               <TableRow hover role="checkbox" tabIndex={-1} key={index} className={row.type === 0 ? styles.tableexpensesrow : styles.tableincomerow}>
-                                  {columns.map((column) => {
-                                  const value = row[column.id];
-                                  
-                                  return (
-                                    <TableCell key={column.id} align={column.align} style={{color: 'whitesmoke', fontSize: '14px'}}>
-                                    {column.format && typeof value === 'number' ? column.format(value) : value}
-                                    </TableCell> ); })}
+                                
+                                /* {handleRowEditing(row.id)}
+                                    {row['editing'] ? <EditItemDialog setEditing={setEditing} 
+                                                               name={row['name']}
+                                                               amt={row['amount']}
+                                                               dt={row['date']}
+                                                               id={row['id']} 
+                                                               editItem={editItem}/> :  */
+                                
+                               /* <TableRow hover role="checkbox" tabIndex={-1} key={row.id} className={row.type === 0 ? styles.tableexpensesrow : styles.tableincomerow}>
+                                    <TableCell align={columns[0].align} style={{color: 'whitesmoke', fontSize: '14px'}}>
+                                      {row.name}
+                                   </TableCell>
+                                    <TableCell align={columns[1].align} style={{color: 'whitesmoke', fontSize: '14px'}}>
+                                      {columns[1].format(row.amount)}            
+                                    </TableCell>
+                                    <TableCell align={columns[2].align} style={{color: 'whitesmoke', fontSize: '14px'}}>
+                                      {columns[2].format(row.date)}
+                                   </TableCell>
+                                   <TableCell align={columns[3].align} style={{color: 'whitesmoke', fontSize: '14px'}}>
+                                      <span><Fab size="small" onClick={()=> setEditing(true)}><EditTwoToneIcon/></Fab></span>
+                                   </TableCell>
+                                </TableRow> */
+                                <Item row={row} columns={columns} key={row.id} editItem={editItem}/>
+                              
+                              );})}
+                                <TableRow className={styles.totalrowE}>
+                                    {/* <TableCell rowSpan={3} /> */}
+                                    <TableCell className={styles.fontsummary} align='left' component='blockquote'>Subtotal (Expenses):</TableCell>
+                                    <TableCell className={styles.fontsummary}>₹ {expenseSubtotal.toFixed(2)}</TableCell>
                                 </TableRow>
-                              ); })}
+                                <TableRow className={styles.totalrowI}>
+                                    {/* <TableCell rowSpan={3} /> */}
+                                    <TableCell className={styles.fontsummary} align='left' component='blockquote'>Subtotal (Income):</TableCell>
+                                    <TableCell className={styles.fontsummary}>₹ {incomeSubtotal.toFixed(2)}</TableCell>
+                                </TableRow>
                             </TableBody>
                           </Table>
                       </TableContainer>
@@ -184,10 +265,11 @@ function ItemsTable()
                                         count={data.length} rowsPerPage={rowsPerPage}
                                         page={page} onPageChange={handleChangePage} 
                                         onRowsPerPageChange={handleChangeRowsPerPage} style={{color: 'white'}}/>
-                    </Paper>
-                </div>
-            </main>
-        </div>
+                    </>
+                    
+        //         </div>
+        //     </main>
+        // </div>
     )
   }
   export default ItemsTable;

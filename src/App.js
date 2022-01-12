@@ -10,6 +10,8 @@ import SheetList from './components/diaries/SheetsList';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import AddItem from './components/forms/AddItem';
 import ItemsTable from './components/items/ItemsTable';
+import MonthlyItems from './components/items/monthlyItems';
+import ItemsTablePage from './components/items/itemsTablePage';
  const useStyles = makeStyles((theme)=> ({
 
   scrollbar: {
@@ -43,8 +45,9 @@ function App() {
         <Route path="dashboard" element={<Dashboard/>}/>
         <Route path="addnew" element={<AddItem/>}/>
         <Route path="signup" element={<SignUp/>}/>
-        <Route path="/all/items" element={<ItemsTable/>}/>
+        <Route path="/all/items" element={<ItemsTablePage/>}/>
         <Route exact path="/:year/in" element={<SheetList/>}/>
+        <Route exact path="/:year/in/:month" element={<MonthlyItems/>}/>
 </Routes>
     
       {/* <Dashboard/> */}

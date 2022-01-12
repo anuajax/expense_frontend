@@ -42,14 +42,14 @@ const Diaries = () => {
     const arr = [2019, 2020, 2021, 2022, 2023, 2024];
     return (
         <div className={styles.root}>
-            <SideDrawer/>
+            <SideDrawer text={`Dairies`}/>
             <main className={styles.content}>
                 <div className={styles.appBarSpacer}>
                     <Container maxWidth="lg" className={styles.container}>
                       <Paper className={styles.paper}>
                       <Box display='flex'   flexWrap='wrap'>
                         {
-                          arr.map(item => (<Link to = {`/${item}/in`}><FolderIcon key={item} year={item}/></Link>))
+                          arr.map(item => (<Link key={item} to = {`/${item}/in`}><FolderIcon  year={item}/></Link>))
                         }
                       </Box>
                        </Paper>

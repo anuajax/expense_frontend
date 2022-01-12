@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import SideDrawer from '../NavBars/SideDrawer';
 import SheetIcon from './SheetIcon';
 import { useParams } from 'react-router';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme)=>({
     root: {
@@ -49,7 +50,7 @@ const SheetList = ({props}) => {
     let {year} = useParams();
     return (
         <div className={styles.root}>
-            <SideDrawer/>
+            <SideDrawer text={`${year} data`}/>
             <main className={styles.content}>
                 <div className={styles.appBarSpacer}>
                     <Container maxWidth="lg" className={styles.container}>
@@ -61,7 +62,7 @@ const SheetList = ({props}) => {
                             <Divider className={styles.divider}/>
                             </Box>
                             <Box display='flex' flexWrap='wrap' justifyContent='center'>
-                                {arr.map(month => <SheetIcon month={month} year={year}/>)}
+                                {arr.map(month => <Link key={month} to={`/${year}/in/${month}`} style={{textDecoration: 'none', color: 'whitesmoke'}}><SheetIcon month={month} year={year}/></Link>)}
                             </Box>
                        </Paper>
                     </Container>

@@ -17,11 +17,13 @@ class DateTime extends Component
     {
         this.setState({date: new Date()})
     }
-    componentWillMount()
+    componentDidMount()
     {
-        setInterval(() => {
+      
+        setInterval(() => {  
             this.currentTime()
         }, 1000);
+       
     }
     render()
     {

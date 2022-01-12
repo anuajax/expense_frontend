@@ -9,8 +9,17 @@ const Chart = () => {
             {
                 label: 'Expenses',
                 data: [10000, 20000, 15000, 24000, 11000, 8000, 9000, 12500, 8700, 3200, 10000, 12313],
-                backgroundColor: 'rgba(200,150,100,0.6)',
-                borderColor: 'wheat',
+                // backgroundColor: 'rgba(200,150,100,0.6)',
+                backgroundColor: 'rgba(200, 40, 40, 0.8)',
+                borderColor: 'rgba(200, 40, 40, 0.8)',
+                borderWidth: 2
+            
+            },
+            {
+                label: 'Income',
+                data: [21000, 12000, 17500, 12400, 11100, 9800, 1900, 12250, 6870, 3820, 2000, 18231],
+                backgroundColor: 'rgba(100,150,100,0.8)',
+                borderColor: 'rgba(100,150,100,0.8)',
                 borderWidth: 2
             
             }

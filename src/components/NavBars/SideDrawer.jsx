@@ -100,7 +100,7 @@ backgroundImage: 'linear-gradient(147deg, #000000 0%, #434343 74%)'
   }
 
 }));
-const SideDrawer = () => 
+const SideDrawer = ({text}) => 
 {
     const classes = useStyles();
     const [open, setOpen] = React.useState(true);
@@ -126,7 +126,7 @@ const SideDrawer = () =>
               <MenuIcon />
             </IconButton>
             <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-              Dashboard
+              {text}
             </Typography>
             <IconButton color='inherit'>
               <Badge badgeContent={4} color="secondary">

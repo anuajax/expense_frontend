@@ -1,11 +1,12 @@
 import { Container, makeStyles, Box, Paper, FormControl, Grid, Button, Typography} from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
-import React from 'react'
+import React, { useState } from 'react'
 import SideDrawer from '../NavBars/SideDrawer';
 import SuccessButton from '../InputElements/SuccessButton';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import useTwoStates from '../../hooks/useTwoStates';
 
 const useStyles = makeStyles((theme)=>({
 
@@ -56,32 +57,62 @@ const useStyles = makeStyles((theme)=>({
       }
 }))
 
+
+
 const AddItem = () => {
     const styles = useStyles();
+    const [itemE,  setItemE] = useState('');
+    const [amountE, setAmountE] = useState(0);
+    const [dateE, setDateE] = useState('');
+    const [itemI,  setItemI] = useState('');
+    const [amountI, setAmountI] = useState(0);
+    const [dateI, setDateI] = useState('');
+    const [type, setType] = useState(0);
+
+    const handleSubmitExpense = e  => {
+      e.preventDefault();
+      const state = { itemE, amountE, dateE, type: 0 };
+      alert(`item: ${state.itemE} amount: ${state.amountE} date: ${state.dateE} type: ${state.type}`);
+      setItemE('');
+      setAmountE('');
+      setDateE('');
+      setType(0);
+    }
+
+    const handleSubmitIncome = e => {
+      e.preventDefault();
+      const state = { itemI, amountI, dateI, type: 1 };
+      alert(`item: ${state.itemI} amount: ${state.amountI} date: ${state.dateI} type: ${state.type}`);
+      setItemI('');
+      setAmountI('');
+      setDateI('');
+      setType(1);
+    }
+
     return (
         <div className={styles.root}>
-            <SideDrawer/>
+            <SideDrawer text={`New Entry`}/>
             <main className={styles.content}>
                 <div className={styles.appBarSpacer}>
                     <Container maxWidth="lg" className={styles.container}>
                     <Paper className={styles.paper}>
                       <Typography className={styles.typography} variant="h4" >Expense</Typography>
-                              <form className={styles.form}>
+                              <form className={styles.form} onSubmit={handleSubmitExpense}>
                               <Grid container spacing={3}>
                                   <Grid item xs={12} md={5} lg={4}>                               
-                                      <TextField className={styles.textField} variant="outlined" 
+                                      <TextField onChange={(e)=>setItemE(e.target.value)} value={itemE} className={styles.textField} variant="outlined" 
                                       id="outlined-basic" label="Expense Item" required margin="normal" fullWidth/>
                                   </Grid>
                                   <Grid item xs={12} md={3} lg={3}> 
                                       <FormControl>
                                         <Box>
-                                          <TextField className={styles.textField} type="number" variant="outlined" 
+                                          <TextField onChange={(e)=>setAmountE(e.target.value)} value={amountE} className={styles.textField} type="number" variant="outlined" 
                                           id="amount" label="Amount(₹)" name="amount" required margin="normal" fullWidth/>
                                         </Box>
                                       </FormControl>
                                   </Grid>
                                   <Grid item xs={12} md={3} lg={3}> 
-                                        <TextField id="date" label="Date" type="date" defaultValue=""
+                                        <TextField onChange={(e)=>setDateE(e.target.value)} value={dateE} id="date" label="Date" type="date"
                                          className={styles.textField} InputLabelProps={{ shrink: true}}
                                          required margin="normal" fullWidth/>
                                   </Grid>
@@ -97,14 +128,14 @@ const AddItem = () => {
                     <Container maxWidth="lg" className={styles.container}>
                     <Paper className={styles.paper}>
                     <Typography variant="h4" className={styles.typography}>Income</Typography>
-                              <form className={styles.form}>
+                              <form className={styles.form} onSubmit={handleSubmitIncome}>
                               <Grid container spacing={3}>
                                   <Grid item xs={12} md={5} lg={4}>                               
-                                      <TextField  className={styles.textField} variant="outlined" 
+                                      <TextField onChange={(e)=>setItemI(e.target.value)} value={itemI}  className={styles.textField} variant="outlined" 
                                       id="outlined-basic" label="Income Item" required margin="normal" fullWidth/>
                                   </Grid>
                                   <Grid item xs={12} md={3} lg={3}> 
-                                          <TextField className={styles.textField} type="number" variant="outlined" 
+                                          <TextField onChange={(e)=>setAmountI(e.target.value)} value={amountI} className={styles.textField} type="number" variant="outlined" 
                                           id="amount" label="Amount(₹)" name="amount" required margin="normal" fullWidth/>
                                        {/* <FormControl fullWidth variant="outlined">
                                             <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
@@ -114,7 +145,7 @@ const AddItem = () => {
                                       </FormControl> */}
                                   </Grid>
                                   <Grid item xs={12} md={3} lg={3}> 
-                                        <TextField id="date" label="Date" type="date" defaultValue=""
+                                        <TextField onChange={(e)=>setDateI(e.target.value)} value={dateI} id="date" label="Date" type="date"
                                          className={styles.textField} InputLabelProps={{ shrink: true}}
                                          required margin="normal" fullWidth/>
                                   </Grid>
