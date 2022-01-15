@@ -1,12 +1,13 @@
 import { Container, makeStyles, Box, Paper, FormControl, Grid, Button, Typography} from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import SideDrawer from '../NavBars/SideDrawer';
 import SuccessButton from '../InputElements/SuccessButton';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import useTwoStates from '../../hooks/useTwoStates';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme)=>({
 
@@ -67,26 +68,34 @@ const AddItem = () => {
     const [itemI,  setItemI] = useState('');
     const [amountI, setAmountI] = useState(0);
     const [dateI, setDateI] = useState('');
-    const [type, setType] = useState(0);
 
-    const handleSubmitExpense = e  => {
+    async function postRequest(formdata)
+    {
+      const response = await axios.post("http://localhost:5000/items/new", formdata);
+      if(response) return response.data;
+    }
+
+    async function handleSubmitExpense(e) {
       e.preventDefault();
-      const state = { itemE, amountE, dateE, type: 0 };
-      alert(`item: ${state.itemE} amount: ${state.amountE} date: ${state.dateE} type: ${state.type}`);
+      const state = { name: itemE, amount: amountE, date: dateE, type: false };
+      const resp = await postRequest(state);
+      console.log(resp);
+      alert(resp);
+      //alert(`item: ${state.itemE} amount: ${state.amountE} date: ${state.dateE} type: ${state.type}`);
       setItemE('');
       setAmountE('');
       setDateE('');
-      setType(0);
     }
 
-    const handleSubmitIncome = e => {
+    async function handleSubmitIncome(e) {
       e.preventDefault();
-      const state = { itemI, amountI, dateI, type: 1 };
-      alert(`item: ${state.itemI} amount: ${state.amountI} date: ${state.dateI} type: ${state.type}`);
+      const state = { name: itemI, amount: amountI, date: dateI, type: true };
+      const resp = await postRequest(state);
+      console.log(resp);
+      alert(resp);
       setItemI('');
       setAmountI('');
       setDateI('');
-      setType(1);
     }
 
     return (

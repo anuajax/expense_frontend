@@ -2,21 +2,27 @@ import React, {useState} from 'react';
 import Button from '@material-ui/core/Button';
 import TableCell from '@material-ui/core/TableCell';
 import Slide from '@material-ui/core/Slide';
-
+import axios from 'axios';
 import { Box, Paper, TableRow, TextField } from '@material-ui/core';
 import useInputState from '../../hooks/useInputState';
 
-const EditItemDialog = ({ name, amt, dt, editItem, id, toggleIsEditing, columns}) => {
+const EditItemDialog = ({ name, amt, dt,  id, toggleIsEditing, editingDone, updated, columns}) => {
 
  const [item, setItem] = useState(name);
  const [amount, setAmount] = useState(amt);
  const [date, setDate] = useState(dt);
+ 
 
-  const handleSubmit = e => {
+ const updateItem = async (rowId, name, amount, date) => {
+  const response = await axios.put(`http://localhost:5000/items/${rowId}/edit`, {name, amount, date});
+  if(response) console.log(response.data);
+}
+  function handleSubmit(e)
+  {
     e.preventDefault();
-    editItem(id, item, amount, date);
-    console.log(amount);
+    updateItem(id, item, amount, date);
     toggleIsEditing();
+    editingDone(!updated);
   }
 
   return (

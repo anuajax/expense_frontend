@@ -3,9 +3,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import EditTwoToneIcon from '@material-ui/icons/EditTwoTone';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { Fab} from '@material-ui/core';
 import  useToggle  from '../../hooks/useToggle';
 import EditItemDialog from '../forms/EditItem';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
     tableexpensesrow: {
@@ -25,15 +27,26 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-const Item = ({columns, row, editItem}) => {
+const Item = ({columns, row, editingDone, updated}) => {
     const styles = useStyles();
     const [isEditing, toggleIsEditing] = useToggle(false);
+
+    async function handleDelete(){
+      const response = await axios.delete(`http://localhost:5000/items/${row._id}/delete`);
+      if(response)
+      {
+        console.log(response.data);
+        alert(response.data);
+      }
+      editingDone(!updated);
+    }
+
     return (
         
         <>
-            {isEditing ? <EditItemDialog name={row.name} amt={row.amount} dt={row.date} editItem={editItem} id={row.id} toggleIsEditing={toggleIsEditing} columns={columns}/> : <>
+            {isEditing ? <EditItemDialog name={row.name} amt={row.amount} dt={row.date} editingDone={editingDone} updated={updated} id={row._id} toggleIsEditing={toggleIsEditing} columns={columns}/> : <>
       
-            <TableRow hover role="checkbox" tabIndex={-1} className={row.type === 0 ? styles.tableexpensesrow : styles.tableincomerow}>
+            <TableRow hover role="checkbox" tabIndex={-1} className={!row.type  ? styles.tableexpensesrow : styles.tableincomerow}>
                 
                                     <TableCell align={columns[0].align} style={{minWidth: columns[0].minWidth, color: 'whitesmoke', fontSize: '14px'}}>
                                       {row.name}
@@ -45,7 +58,8 @@ const Item = ({columns, row, editItem}) => {
                                       {columns[2].format(row.date)}
                                    </TableCell>
                                    <TableCell align={columns[3].align} style={{minWidth: columns[3].minWidth, color: 'whitesmoke', fontSize: '14px'}}>
-                                      <span><Fab size="small" onClick={toggleIsEditing}><EditTwoToneIcon/></Fab></span>
+                                      <span style={{marginRight: '5px'}}><Fab size="small" onClick={toggleIsEditing}><EditTwoToneIcon/></Fab></span>
+                                      <span style={{marginLeft: '5px'}}><Fab size="small" onClick={handleDelete}><DeleteIcon/></Fab></span>
                                    </TableCell>
                 
                                 </TableRow></>

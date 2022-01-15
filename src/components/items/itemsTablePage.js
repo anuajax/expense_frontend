@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import SideDrawer from '../NavBars/SideDrawer';
 import ItemsTable from './ItemsTable';
 import { Paper } from '@material-ui/core';
+import axios from 'axios';
 const useStyles = makeStyles((theme)=>({
     roott: {
         display: 'flex',
@@ -44,14 +45,10 @@ const useStyles = makeStyles((theme)=>({
 
 
 
-
-
-
-
-
-
 const ItemsTablePage = () => {
     const styles = useStyles();
+   
+    
     return (
         <div className={styles.roott}>
         <SideDrawer text={`All Items`}/>

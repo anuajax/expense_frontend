@@ -1,9 +1,12 @@
-import { Container, makeStyles, Box, Paper} from '@material-ui/core';
-import React from 'react'
+import { Container, makeStyles, Box, Paper, Fab} from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import React, { useEffect, useState } from 'react'
 import clsx from 'clsx';
 import SideDrawer from '../NavBars/SideDrawer';
 import FolderIcon from './FolderIcon';
 import { Link } from 'react-router-dom';
+import CreateDiary from '../forms/CreateDiary';
+import axios from 'axios';
 const useStyles = makeStyles((theme)=>({
 
     root: {
@@ -40,6 +43,18 @@ const Diaries = () => {
     const styles = useStyles();
     const fixedHeightPaper = clsx(styles.paper, styles.fixedHeight);
     const arr = [2019, 2020, 2021, 2022, 2023, 2024];
+    const [diaries, setDiaries] = useState([]);
+    const [updated, setUpdated] = useState(false);
+    useEffect(() => {
+      async function getDiaries()
+      {
+        const response = await axios.get("http://localhost:5000/diaries");
+        if(response)
+        setDiaries(response.data);
+        else console.log('Error fetching diaries');
+      }
+      getDiaries();
+    }, [updated])
     return (
         <div className={styles.root}>
             <SideDrawer text={`Dairies`}/>
@@ -49,8 +64,9 @@ const Diaries = () => {
                       <Paper className={styles.paper}>
                       <Box display='flex'   flexWrap='wrap'>
                         {
-                          arr.map(item => (<Link key={item} to = {`/${item}/in`}><FolderIcon  year={item}/></Link>))
+                          diaries.map(item => (<Link key={item._id} to = {`/${item.year}/in`}><FolderIcon  year={item.year}/></Link>))
                         }
+                        <CreateDiary updated={updated} setUpdated={setUpdated}/>
                       </Box>
                        </Paper>
                     </Container>
