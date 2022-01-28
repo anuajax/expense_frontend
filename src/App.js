@@ -7,13 +7,14 @@ import SignIn from './components/loginform/SignIn';
 import SignUp from './components/signupform/SignUp';
  import SideDrawer from './components/NavBars/SideDrawer';
 import SheetList from './components/diaries/SheetsList';
-import { Routes, Route, BrowserRouter, useNavigate, Redirect } from 'react-router-dom';
+import { Routes, Route, BrowserRouter, useNavigate, Navigate } from 'react-router-dom';
 import AddItem from './components/forms/AddItem';
 import ItemsTable from './components/items/ItemsTable';
 import MonthlyItems from './components/items/monthlyItems';
 import ItemsTablePage from './components/items/itemsTablePage';
 import { useState, useEffect } from 'react';
 import jwt_decode from 'jwt-decode';
+import axios from 'axios';
 
 
  const useStyles = makeStyles((theme)=> ({
@@ -39,32 +40,45 @@ import jwt_decode from 'jwt-decode';
   
 }));
 function App() {
- const styles = useStyles();
+const styles = useStyles();
+const [user, setUser] = useState(null);
+
+const handleToken = (token) => {
+  const tokenData = jwt_decode(token);
+  if(Date.now() < tokenData.exp)
+  {
+    localStorage.removeItem("authToken");
+    setUser(null);
+  }
+  setUser(tokenData);
+}
+
+useEffect(()=>{
+  const token = localStorage.getItem("authToken");
+  token ? handleToken(token) : setUser(null); 
+}, []);
 
 
+return (
+<div className={styles.scrollbar}>
+<Routes>
+  {!user && (<>
+  <Route path = "/login" element={<SignIn/>}/>
+  <Route path="/register" element={<SignUp/>}/>
+  </>)}
+        
+  {user && (<>
+  <Route path="/diaries" element={<Diaries userId={user.id}/>}/>
+  <Route path="/addnew" element={<AddItem userId={user.id}/>}/>
+  <Route path="/" element={<Dashboard name={user.name} userId={user.id}/>}/>
+  <Route path="/all/items" element={<ItemsTablePage userId={user.id}/>}/>
+  <Route exact path="/:year/in" element={<SheetList userId={user.id}/>}/>
+  <Route exact path="/:year/in/:month" element={<MonthlyItems userId={user.id}/>}/>
+  </>)}
+  <Route path="*" element={<Navigate to={user ? "/" : "/login"}/>}/>
 
-  return (
-    <div className={styles.scrollbar}>
-
-<Routes>        
-        <Route path = "/login" element={<SignIn/>}/>
-        <Route path="/register" element={<SignUp/>}/>
-        <Route path="/diaries" element={<Diaries/>}/>
-        <Route path="/addnew" element={<AddItem/>}/>
-        <Route  path="/" element={<Dashboard/>}/>
-
-        <Route path="/all/items" element={<ItemsTablePage/>}/>
-        <Route exact path="/:year/in" element={<SheetList/>}/>
-        <Route exact path="/:year/in/:month" element={<MonthlyItems/>}/>
 </Routes>
-
-
-    
-      {/* <Dashboard/> */}
-      {/* <Diaries/> */}
-      {/* <SignIn/> */}
-      {/* <SheetList/> */}
-    </div>
+ </div>
   );
 }
 

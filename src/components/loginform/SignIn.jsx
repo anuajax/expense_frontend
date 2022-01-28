@@ -67,7 +67,7 @@ export default function SignIn() {
   const classes = useStyles();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const history = useNavigate();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -79,7 +79,7 @@ export default function SignIn() {
       console.log(user)
       console.log(response.data);
       localStorage.setItem("authToken", token);
-      history("/");
+      navigate("/");
     }}
     catch(err){
       console.log(err);

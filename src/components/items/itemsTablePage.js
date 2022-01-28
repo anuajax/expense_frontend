@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme)=>({
 
 
 
-const ItemsTablePage = () => {
+const ItemsTablePage = ({userId}) => {
     const styles = useStyles();
    
     return (
@@ -54,7 +54,7 @@ const ItemsTablePage = () => {
         <main className={styles.content}>
             <div className={styles.appBarSpacer}>
               <Paper className={styles.paper}>
-                <ItemsTable year={0} month={0}/>
+                <ItemsTable year={0} month={0} userId={userId}/>
               </Paper>
             </div>
             </main>

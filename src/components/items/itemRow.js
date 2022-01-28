@@ -27,12 +27,12 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-const Item = ({columns, row, editingDone, updated}) => {
+const Item = ({columns, row, editingDone, updated, userId}) => {
     const styles = useStyles();
     const [isEditing, toggleIsEditing] = useToggle(false);
 
     async function handleDelete(){
-      const response = await axios.delete(`http://localhost:5000/items/${row._id}/delete`);
+      const response = await axios.delete(`http://localhost:5000/users/${userId}/items/${row._id}/delete`);
       if(response)
       {
         console.log(response.data);
@@ -44,7 +44,7 @@ const Item = ({columns, row, editingDone, updated}) => {
     return (
         
         <>
-            {isEditing ? <EditItemDialog name={row.name} amt={row.amount} dt={row.date} editingDone={editingDone} updated={updated} id={row._id} toggleIsEditing={toggleIsEditing} columns={columns}/> : <>
+            {isEditing ? <EditItemDialog name={row.name} amt={row.amount} dt={row.date} editingDone={editingDone} updated={updated} id={row._id} toggleIsEditing={toggleIsEditing} columns={columns} userId={userId}/> : <>
       
             <TableRow hover role="checkbox" tabIndex={-1} className={!row.type  ? styles.tableexpensesrow : styles.tableincomerow}>
                 

@@ -121,7 +121,7 @@ const columns = [
   { id: 'edit', label: 'Edit', minWidth: 140, align: 'right' },
 ];
 
-function ItemsTable({year,month})
+function ItemsTable({year,month, userId})
 {
   const styles = useStyles();
   const [data, setData] = useState([]);
@@ -133,11 +133,8 @@ function ItemsTable({year,month})
   const history = useNavigate()
   useEffect(() => {
     async function getAllItems() {
-      if(!localStorage.getItem("authToken")){
-        return history("/login");
-        }
-        const decoded = jwt_decode(localStorage.getItem("authToken"));
-       const response = await axios.get(`http://localhost:5000/users/${decoded.id}/items`);
+
+       const response = await axios.get(`http://localhost:5000/users/${userId}/items`);
       if(response) {
         if(year === 0) setData(response.data);
         else
@@ -248,7 +245,7 @@ function ItemsTable({year,month})
                             <TableBody>
                               {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                               return ( 
-                                <Item row={row} columns={columns} key={row._id} editingDone={editingDone} updated={updated}/>
+                                <Item row={row} columns={columns} key={row._id} editingDone={editingDone} updated={updated} userId={userId}/>
                               );})}
                                 
                                 

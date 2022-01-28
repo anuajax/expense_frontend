@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme)=>({
 
 
 
-const AddItem = () => {
+const AddItem = ({userId}) => {
     const styles = useStyles();
     const [itemE,  setItemE] = useState('');
     const [amountE, setAmountE] = useState(0);
@@ -71,7 +71,7 @@ const AddItem = () => {
 
     async function postRequest(formdata)
     {
-      const response = await axios.post("http://localhost:5000/items/new", formdata);
+      const response = await axios.post(`http://localhost:5000/users/${userId}/items/new`, formdata);
       if(response) return response.data;
     }
 

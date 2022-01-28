@@ -40,16 +40,15 @@ const useStyles = makeStyles((theme)=>({
       },
 }))
 
-const Diaries = () => {
+const Diaries = ({userId}) => {
     const styles = useStyles();
     const fixedHeightPaper = clsx(styles.paper, styles.fixedHeight);
-    const arr = [2019, 2020, 2021, 2022, 2023, 2024];
     const [diaries, setDiaries] = useState([]);
     const [updated, setUpdated] = useState(false);
     useEffect(() => {
       async function getDiaries()
       {
-        const response = await axios.get("http://localhost:5000/diaries");
+        const response = await axios.get(`http://localhost:5000/users/${userId}/diaries`);
         if(response)
         setDiaries(response.data);
         else console.log('Error fetching diaries');
@@ -67,7 +66,7 @@ const Diaries = () => {
                         {
                           diaries.map(item => (<Link key={item._id} to = {`/${item.year}/in`}><FolderIcon  year={item.year}/></Link>))
                         }
-                        <CreateDiary updated={updated} setUpdated={setUpdated}/>
+                        <CreateDiary updated={updated} setUpdated={setUpdated} userId={userId}/>
                       </Box>
                        </Paper>
                     </Container>

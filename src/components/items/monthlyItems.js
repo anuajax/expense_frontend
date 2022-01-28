@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme)=>({
 }));
 
 
-const MonthlyItems = () => {
+const MonthlyItems = ({userId}) => {
     const styles = useStyles();
     const {year, month} = useParams();
     const text = `${month}, ${year} data`
@@ -63,7 +63,7 @@ const MonthlyItems = () => {
         <main className={styles.content}>
             <div className={styles.appBarSpacer}>
               <Paper className={styles.paper}>
-                    <ItemsTable year={year} month={months[`${month}`]}/>
+                    <ItemsTable year={year} month={months[`${month}`]} userId={userId}/>
             </Paper>
             </div>
             </main>

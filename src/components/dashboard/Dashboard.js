@@ -152,19 +152,14 @@ const useStyles = makeStyles((theme) => ({
   
 }));
 
-export default function Dashboard({user}) {
+export default function Dashboard({name, userId}) {
   const classes = useStyles();
   const [data, setData] = useState([]);
-  const history = useNavigate();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   useEffect(() => {
     async function getData() {
-       if(!localStorage.getItem("authToken")){
-         return history("/login");
-         }
-         const loggedInUser = jwt_decode(localStorage.getItem("authToken"));
-        const response = await axios.get(`http://localhost:5000/users/${loggedInUser.id}/items`);
+        const response = await axios.get(`http://localhost:5000/users/${userId}/items`);
         if(response) setData(response.data);
         else console.log('Error fetching data');
     }
@@ -222,7 +217,7 @@ export default function Dashboard({user}) {
             {/* Welcome */}
             <Grid item xs={12} md={8} lg={8}>
               <Paper className={clsx( fixedHeightPaper, classes.welcome)}>
-                <Welcome />
+                <Welcome name={name}/>
               </Paper>
             </Grid>
             {/* Recent Deposits */}
