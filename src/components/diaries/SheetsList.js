@@ -1,10 +1,11 @@
-import { makeStyles, Container, Box, Paper, Typography, Divider } from '@material-ui/core';
+import { makeStyles, Container, Box, Paper, Typography, Divider, Fab } from '@material-ui/core';
 import React from 'react';
 import clsx from 'clsx';
 import SideDrawer from '../NavBars/SideDrawer';
 import SheetIcon from './SheetIcon';
 import { useParams } from 'react-router';
-import { Link } from 'react-router-dom';
+import CustomSelect from './Select';
+import  DeleteIcon  from '@material-ui/icons/Delete';
 
 const useStyles = makeStyles((theme)=>({
     root: {
@@ -55,6 +56,7 @@ const SheetList = ({props}) => {
                 <div className={styles.appBarSpacer}>
                     <Container maxWidth="lg" className={styles.container}>
                       <Paper className={styles.paper}>
+                          <Fab><DeleteIcon/></Fab>
                           <Box m={2}>
                             <Typography variant="h5" align="center">
                                 {year}
@@ -62,7 +64,7 @@ const SheetList = ({props}) => {
                             <Divider className={styles.divider}/>
                             </Box>
                             <Box display='flex' flexWrap='wrap' justifyContent='center'>
-                                {arr.map(month => <Link key={month} to={`/${year}/in/${month}`} style={{textDecoration: 'none', color: 'whitesmoke'}}><SheetIcon month={month} year={year}/></Link>)}
+                                {arr.map(month => <SheetIcon key={month} month={month} year={year}/>)}
                             </Box>
                        </Paper>
                     </Container>

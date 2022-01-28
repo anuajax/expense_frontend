@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
+import { useNavigate } from "react-router-dom";
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,8 +13,11 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
+import PhoneInput from "react-phone-input-2";
+import 'react-phone-input-2/lib/style.css';
 import PhoneInputCountry from '../InputElements/PhoneInputCountry';
+import UserContext from '../../context/userContext.js';
+import axios from 'axios';
 
 function Copyright() {
   return (
@@ -52,8 +56,32 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUp() {
+export default function SignUp({setToken, setUser}) {
   const classes = useStyles();
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [tel, setTel] = useState('');
+  const [password, setPassword] = useState('');
+  const history = useNavigate();
+  //const { setUserData } = useContext(UserContext);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try{
+      const user = { name, email, password, tel};
+      const resp = await axios.post("register", user);
+      if(resp){
+        const response = await axios.post("login", { email, password });
+        if(response){
+          const { user, token } = response.data;
+          localStorage.setItem("authToken", token);
+          history("/");
+        }
+      }     
+    }
+    catch(err){
+      console.error(err);
+    }
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -62,24 +90,14 @@ export default function SignUp() {
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign up
-        </Typography>
-        <form className={classes.form} noValidate>
+        <Typography component="h1" variant="h5">Sign up</Typography>
+        <form className={classes.form} onSubmit={handleSubmit} noValidate>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="fname"
-                name="firstName"
-                variant="outlined"
-                required
-                fullWidth
-                id="firstName"
-                label="First Name"
-                autoFocus
-              />
+            <Grid item xs={12} sm={12}>
+              <TextField autoComplete="name" name="Name" variant="outlined" required fullWidth value={name}
+                         id="Name" label="Name" autoFocus onChange={(e)=>setName(e.target.value)}/>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            {/* <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
                 required
@@ -89,36 +107,18 @@ export default function SignUp() {
                 name="lastName"
                 autoComplete="lname"
               />
+            </Grid> */}
+            <Grid item xs={12}>
+              <TextField variant="outlined" required fullWidth id="email" label="Email Address" value={email} 
+                         name="email" autoComplete="email" onChange={(e)=> setEmail(e.target.value)}/>
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-              />
+              <TextField variant="outlined" required fullWidth name="password" label="Password" type="password" value={password}
+                         id="password" autoComplete="current-password" onChange={(e)=>setPassword(e.target.value)}/>
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-            </Grid>
-            <Grid item xs={12}>
-                
-                
-                    <PhoneInputCountry/>
-                
-                
+             
+            <PhoneInputCountry setTel={setTel}/>    
             </Grid>
             <Grid item xs={12}>
               <FormControlLabel
@@ -127,13 +127,7 @@ export default function SignUp() {
               />
             </Grid>
           </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
+          <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
             Sign Up
           </Button>
           <Grid container justifyContent="flex-end">

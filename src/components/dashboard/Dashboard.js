@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
@@ -12,6 +12,9 @@ import Welcome from './Welcome';
 import Highlights from './Highlights';
 import Chart from './Chart';
 import SideDrawer from '../NavBars/SideDrawer';
+import axios from 'axios';
+import jwt_decode from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
 
 // import CssBaseline from '@material-ui/core/CssBaseline';
 // import Drawer from '@material-ui/core/Drawer';
@@ -149,10 +152,26 @@ const useStyles = makeStyles((theme) => ({
   
 }));
 
-export default function Dashboard() {
+export default function Dashboard({user}) {
   const classes = useStyles();
-  
+  const [data, setData] = useState([]);
+  const history = useNavigate();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
+  useEffect(() => {
+    async function getData() {
+       if(!localStorage.getItem("authToken")){
+         return history("/login");
+         }
+         const loggedInUser = jwt_decode(localStorage.getItem("authToken"));
+        const response = await axios.get(`http://localhost:5000/users/${loggedInUser.id}/items`);
+        if(response) setData(response.data);
+        else console.log('Error fetching data');
+    }
+    getData();
+  }, []);
+
+  
 
   return (
     <div className={classes.root}>
@@ -203,7 +222,7 @@ export default function Dashboard() {
             {/* Welcome */}
             <Grid item xs={12} md={8} lg={8}>
               <Paper className={clsx( fixedHeightPaper, classes.welcome)}>
-                <Welcome/>
+                <Welcome />
               </Paper>
             </Grid>
             {/* Recent Deposits */}
@@ -215,7 +234,7 @@ export default function Dashboard() {
             {/* Recent Orders */}
             <Grid item xs={12}>
               <Paper className={clsx(classes.paper)}>
-                <Chart/>
+                <Chart data={data}/>
               </Paper>
             </Grid>
           </Grid>

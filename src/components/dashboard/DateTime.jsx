@@ -5,9 +5,9 @@ import React, { Component } from 'react';
    withStyles is a HOC used with classs Components*/
 class DateTime extends Component 
 {
-    constructor()
+    constructor(props)
     {
-        super();
+        super(props);
         this.state = {
             date: new Date()
         }
@@ -47,7 +47,7 @@ class DateTime extends Component
                     {date}
                 </Typography>
                 <Typography variant="subtitle2">
-                    {`${wish}, Anurag`}
+                    {`${wish}, ${this.props.user}`}
                 </Typography>
                 </Box>
         )

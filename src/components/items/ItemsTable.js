@@ -17,6 +17,8 @@ import { withStyles } from '@material-ui/styles';
 import EditItemDialog from '../forms/EditItem';
 import Item from './itemRow';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import jwt_decode from 'jwt-decode';
 
 const useStyles = makeStyles((theme)=>({
   roott: {
@@ -119,7 +121,7 @@ const columns = [
   { id: 'edit', label: 'Edit', minWidth: 140, align: 'right' },
 ];
 
-function ItemsTable()
+function ItemsTable({year,month})
 {
   const styles = useStyles();
   const [data, setData] = useState([]);
@@ -128,11 +130,25 @@ function ItemsTable()
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [updated, setUpdated] = useState(false);
- 
+  const history = useNavigate()
   useEffect(() => {
     async function getAllItems() {
-      const response = await axios.get("http://localhost:5000/items");
-      if(response) setData(response.data);
+      if(!localStorage.getItem("authToken")){
+        return history("/login");
+        }
+        const decoded = jwt_decode(localStorage.getItem("authToken"));
+       const response = await axios.get(`http://localhost:5000/users/${decoded.id}/items`);
+      if(response) {
+        if(year === 0) setData(response.data);
+        else
+        {
+          const diaryData = response.data.filter(item => {
+            let d = item.date.split('/');
+            return (d[2] === year && Number(d[1]) === month);
+          });
+          setData(diaryData);
+        }
+      }
       else console.log('Error fetching data');
     }
     getAllItems();

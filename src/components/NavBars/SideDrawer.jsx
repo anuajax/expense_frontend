@@ -103,7 +103,7 @@ backgroundImage: 'linear-gradient(147deg, #000000 0%, #434343 74%)'
 const SideDrawer = ({text}) => 
 {
     const classes = useStyles();
-    const [open, setOpen] = React.useState(true);
+    const [open, setOpen] = React.useState(false);
     const handleDrawerOpen = () => {
       setOpen(true);
     };

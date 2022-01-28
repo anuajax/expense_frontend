@@ -13,7 +13,7 @@ import NewDiaryIcon from '../diaries/NewDiaryIcon';
 
 export default function CreateDiary({ updated, setUpdated }) {
   const [open, setOpen] = React.useState(false);
-  const [year, setYear] = useState(0);
+  const [year, setYear] = useState();
 
   const handleClickOpen = () => {
     setOpen(true);

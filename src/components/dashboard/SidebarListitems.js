@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 export const MainListItems = () => {
 const classes = useStyles();
   return (<div>
-   <ListItem button className={classes.listitem} component={Link} to={'/dashboard'}>
+   <ListItem button className={classes.listitem} component={Link} to={'/'}>
       <ListItemIcon>
         <DashboardIcon className={classes.icons}/>
       </ListItemIcon>

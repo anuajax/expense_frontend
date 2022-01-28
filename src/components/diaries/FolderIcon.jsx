@@ -1,6 +1,8 @@
 import { Box, makeStyles, Typography} from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
 import React from 'react';
 import clsx from 'clsx';
+import CustomSelect from './Select';
 const useStyles = makeStyles((theme)=> ({
     background: {
         // backgroundColor: '#7f5a83',
@@ -25,6 +27,15 @@ const useStyles = makeStyles((theme)=> ({
         color: 'whitesmoke',
         textShadow: '0px 1px 0px #999, 0px 2px 0px #888, 0px 3px 0px #777, 0px 4px 0px #666, 0px 5px 0px #555, 0px 6px 0px #444, 0px 7px 0px #333, 0px 8px 7px #001135',
         marginBottom: '10px'
+    },
+    span : {
+        display: 'flex',
+        justifyContent: 'space-around',
+        alignItems: 'center'
+    },
+    icon: {
+        color: 'red',
+        marginLeft: '20px',
     }
 
 }))
@@ -34,10 +45,12 @@ const FolderIcon = ({year}) => {
     let clicksound2 = new Audio("/sounds/mixkit-modern-technology-select-3124.wav");
     const play = () => clicksound2.play();
     return (
-        <div className={clsx(styles.dimension, styles.background)} onClick={play}>
+        <div className={clsx(styles.dimension, styles.background)} onClick={play} >
             <Box display='flex' flexDirection='column' justifyContent="center" alignItems="center">
                <img src={`/images/burn_folder_20373.png`} className={styles.img}/>
+               <span className={styles.span}>
                <Typography variant='h4' className={styles.font}>{year}</Typography>
+               </span>
             </Box>
         </div>
     )

@@ -14,7 +14,7 @@ class PhoneInputCountry extends React.Component{
     render()
     {
     return (
-        <PhoneInput  country={'ind'} value={this.state.phone} onChange={phone=>this.setState({phone})}/>
+        <PhoneInput  country={'ind'} value={this.state.phone} onChange={phone=>{this.setState({phone}); this.props.setTel(phone);}}/>
     )
     }
 }

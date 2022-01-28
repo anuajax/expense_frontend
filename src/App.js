@@ -7,11 +7,15 @@ import SignIn from './components/loginform/SignIn';
 import SignUp from './components/signupform/SignUp';
  import SideDrawer from './components/NavBars/SideDrawer';
 import SheetList from './components/diaries/SheetsList';
-import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import { Routes, Route, BrowserRouter, useNavigate, Redirect } from 'react-router-dom';
 import AddItem from './components/forms/AddItem';
 import ItemsTable from './components/items/ItemsTable';
 import MonthlyItems from './components/items/monthlyItems';
 import ItemsTablePage from './components/items/itemsTablePage';
+import { useState, useEffect } from 'react';
+import jwt_decode from 'jwt-decode';
+
+
  const useStyles = makeStyles((theme)=> ({
 
   scrollbar: {
@@ -36,19 +40,25 @@ import ItemsTablePage from './components/items/itemsTablePage';
 }));
 function App() {
  const styles = useStyles();
+
+
+
   return (
     <div className={styles.scrollbar}>
- 
+
 <Routes>        
-        <Route path = "/" element={<SignIn/>}/>
-        <Route path="diaries" element={<Diaries/>}/>
-        <Route path="dashboard" element={<Dashboard/>}/>
-        <Route path="addnew" element={<AddItem/>}/>
-        <Route path="signup" element={<SignUp/>}/>
+        <Route path = "/login" element={<SignIn/>}/>
+        <Route path="/register" element={<SignUp/>}/>
+        <Route path="/diaries" element={<Diaries/>}/>
+        <Route path="/addnew" element={<AddItem/>}/>
+        <Route  path="/" element={<Dashboard/>}/>
+
         <Route path="/all/items" element={<ItemsTablePage/>}/>
         <Route exact path="/:year/in" element={<SheetList/>}/>
         <Route exact path="/:year/in/:month" element={<MonthlyItems/>}/>
 </Routes>
+
+
     
       {/* <Dashboard/> */}
       {/* <Diaries/> */}

@@ -1,6 +1,9 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import ConfirmDelete from '../forms/ConfirmDelete';
+
 const useStyles = makeStyles((theme) => ({
     box:{
         width: '300px',
@@ -30,15 +33,15 @@ const useStyles = makeStyles((theme) => ({
     }
    
 }))
-const SheetIcon = ({month}) => {
+const SheetIcon = ({year, month}) => {
     const styles = useStyles();
     const [deletebutton, togglebutton] = useState(false);
    
     return (
         <Box onMouseOver={()=>togglebutton(!deletebutton)}  display='flex' className={styles.box} alignItems='center' justifyContent="flex-end">
             <Box display='flex'>
-                <Typography variant='h6' className={styles.text} >{month}</Typography>
-                <DeleteIcon className={styles.bin}/>
+            <Link to={`/${year}/in/${month}`} style={{textDecoration: 'none', color: 'whitesmoke'}}><Typography variant='h6' className={styles.text} >{month}</Typography></Link>
+                <ConfirmDelete text={`Delete data for `}/>
             </Box>     
         </Box>
     )

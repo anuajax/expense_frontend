@@ -7,6 +7,7 @@ import FolderIcon from './FolderIcon';
 import { Link } from 'react-router-dom';
 import CreateDiary from '../forms/CreateDiary';
 import axios from 'axios';
+import CustomSelect from './Select';
 const useStyles = makeStyles((theme)=>({
 
     root: {
@@ -70,9 +71,7 @@ const Diaries = () => {
                       </Box>
                        </Paper>
                     </Container>
-
                 </div>
-
             </main>
         </div>
     )

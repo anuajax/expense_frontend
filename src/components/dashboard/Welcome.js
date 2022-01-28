@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-function Welcome() {
+function Welcome({user}) {
     const styles = useStyles();
     return (
         <Box display="flex" flexWrap="wrap" className={styles.list}>
@@ -56,7 +56,7 @@ function Welcome() {
                   </Box>
                     
                 </Box>
-                <Box className={styles.margintop}><DateTime/></Box>
+                <Box className={styles.margintop}><DateTime user={user}/></Box>
                 
         </Box>
         

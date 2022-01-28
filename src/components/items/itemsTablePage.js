@@ -48,14 +48,13 @@ const useStyles = makeStyles((theme)=>({
 const ItemsTablePage = () => {
     const styles = useStyles();
    
-    
     return (
         <div className={styles.roott}>
         <SideDrawer text={`All Items`}/>
         <main className={styles.content}>
             <div className={styles.appBarSpacer}>
               <Paper className={styles.paper}>
-                <ItemsTable/>
+                <ItemsTable year={0} month={0}/>
               </Paper>
             </div>
             </main>
