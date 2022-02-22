@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     },
     text:{
         fontStyle: 'italic',
-        marginRight: theme.spacing(10)
+       
     },
     bin:{
         marginRight: '10px',
@@ -35,14 +35,11 @@ const useStyles = makeStyles((theme) => ({
 }))
 const SheetIcon = ({year, month}) => {
     const styles = useStyles();
-    const [deletebutton, togglebutton] = useState(false);
-   
     return (
-        <Box onMouseOver={()=>togglebutton(!deletebutton)}  display='flex' className={styles.box} alignItems='center' justifyContent="flex-end">
-            <Box display='flex'>
+        <Box display='flex' className={styles.box} alignItems='center' justifyContent="center">
+
             <Link to={`/${year}/in/${month}`} style={{textDecoration: 'none', color: 'whitesmoke'}}><Typography variant='h6' className={styles.text} >{month}</Typography></Link>
-                <ConfirmDelete text={`Delete data for `}/>
-            </Box>     
+    
         </Box>
     )
 }

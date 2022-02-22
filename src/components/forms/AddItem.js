@@ -8,6 +8,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import useTwoStates from '../../hooks/useTwoStates';
 import axios from 'axios';
+import { Alert } from '@material-ui/lab';
+import Snackbar from '@material-ui/core/Snackbar';
 
 const useStyles = makeStyles((theme)=>({
 
@@ -60,7 +62,7 @@ const useStyles = makeStyles((theme)=>({
 
 
 
-const AddItem = ({userId}) => {
+const AddItem = ({userId, setText}) => {
     const styles = useStyles();
     const [itemE,  setItemE] = useState('');
     const [amountE, setAmountE] = useState(0);
@@ -68,6 +70,17 @@ const AddItem = ({userId}) => {
     const [itemI,  setItemI] = useState('');
     const [amountI, setAmountI] = useState(0);
     const [dateI, setDateI] = useState('');
+    const [severity, setSeverity] = useState('success');
+    const [message, setMessage] = useState();
+    const [open, setOpen] = useState(false);
+    const handleClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+      setOpen(false);
+    };
+
+    useEffect(() => { setText('New Entry') }, [])
 
     async function postRequest(formdata)
     {
@@ -81,6 +94,9 @@ const AddItem = ({userId}) => {
       const resp = await postRequest(state);
       console.log(resp);
       alert(resp);
+      
+      setMessage(resp);
+      setOpen(true);
       //alert(`item: ${state.itemE} amount: ${state.amountE} date: ${state.dateE} type: ${state.type}`);
       setItemE('');
       setAmountE('');
@@ -93,16 +109,19 @@ const AddItem = ({userId}) => {
       const resp = await postRequest(state);
       console.log(resp);
       alert(resp);
+      setMessage(resp);
+      setOpen(true);
       setItemI('');
       setAmountI('');
       setDateI('');
     }
 
     return (
-        <div className={styles.root}>
-            <SideDrawer text={`New Entry`}/>
-            <main className={styles.content}>
-                <div className={styles.appBarSpacer}>
+        // <div className={styles.root}>
+        //     <SideDrawer text={`New Entry`} userId={userId}/>
+        //     <main className={styles.content}>
+        //         <div className={styles.appBarSpacer}>
+        <>
                     <Container maxWidth="lg" className={styles.container}>
                     <Paper className={styles.paper}>
                       <Typography className={styles.typography} variant="h4" >Expense</Typography>
@@ -133,6 +152,8 @@ const AddItem = ({userId}) => {
                      </Paper>
                     </Container>
 
+                  
+                    <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}><Alert severity={severity} style={{width: '250px'}}>{message}</Alert></Snackbar>
 
                     <Container maxWidth="lg" className={styles.container}>
                     <Paper className={styles.paper}>
@@ -165,12 +186,12 @@ const AddItem = ({userId}) => {
                               </form>
                      </Paper>
                     </Container>
+</>
 
+        //         </div>
 
-                </div>
-
-            </main>
-        </div>
+        //     </main>
+        // </div>
     )
 }
 

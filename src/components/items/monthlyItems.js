@@ -1,4 +1,4 @@
-import React, {} from 'react'
+import React, { useEffect } from 'react'
 import ItemsTable from './ItemsTable';
 import { useParams } from 'react-router';
 import { makeStyles } from '@material-ui/core/styles';
@@ -31,8 +31,9 @@ const useStyles = makeStyles((theme)=>({
         justifyContent: 'center',
         width: '100%',
         marginBottom: theme.spacing(2),
-        backgroundColor : '#000000',
-        backgroundImage : 'linear-gradient(147deg, #000000 0%, #2E2E2E 74%)',
+        backgroundColor: 'rgba(8, 10, 12, 0.8)',
+        // backgroundColor : '#000000',
+        // backgroundImage : 'linear-gradient(147deg, #000000 0%, #2E2E2E 74%)',
         color: 'white'
       },
       fixedHeight: {
@@ -44,7 +45,7 @@ const useStyles = makeStyles((theme)=>({
 }));
 
 
-const MonthlyItems = ({userId}) => {
+const MonthlyItems = ({userId, setText}) => {
     const styles = useStyles();
     const {year, month} = useParams();
     const text = `${month}, ${year} data`
@@ -57,17 +58,18 @@ const MonthlyItems = ({userId}) => {
       'June': 6, 'July' : 7, 'August' : 8, 'September' : 9, 
       'October': 10, 'November' : 11, 'December': 12
     }
+    useEffect(() => { setText(text) }, [])
     return (
-        <div className={styles.roott}>
-        <SideDrawer text={text}/>
-        <main className={styles.content}>
-            <div className={styles.appBarSpacer}>
+        // <div className={styles.roott}>
+        // <SideDrawer text={text} userId={userId}/>
+        // <main className={styles.content}>
+        //     <div className={styles.appBarSpacer}>
               <Paper className={styles.paper}>
                     <ItemsTable year={year} month={months[`${month}`]} userId={userId}/>
             </Paper>
-            </div>
-            </main>
-        </div>
+        //     </div>
+        //     </main>
+        // </div>
         
     )
 }

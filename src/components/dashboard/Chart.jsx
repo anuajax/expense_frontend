@@ -9,7 +9,11 @@ const useStyles = makeStyles((theme) => ({
     cards:{
         marginBottom: theme.spacing(3),
         marginTop: theme.spacing(3),
-        backgroundColor: "inherit"
+        backgroundColor: "rgba(8, 10, 12, 0.8)",
+       
+        padding: theme.spacing(1),
+        boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px'
+       
     }
 }))
 const Chart = ({data}) => {
@@ -19,7 +23,7 @@ const Chart = ({data}) => {
    const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
    const label = [1,2,3,4,5,6,7,8,9,10,11,12];
    const currentYearData = data.filter(item => {
-    let dt= item.date.split('/');
+    let dt=item.date.split('/');
     return Number(dt[2]) === year;
   });
   const monthsData = (mon) => {

@@ -1,4 +1,4 @@
-import { makeStyles, Switch } from '@material-ui/core';
+import { makeStyles, Paper, Switch } from '@material-ui/core';
 import './App.css';
 import Dashboard from './components/dashboard/Dashboard';
 import Diaries from './components/diaries/Diaries';
@@ -15,10 +15,31 @@ import ItemsTablePage from './components/items/itemsTablePage';
 import { useState, useEffect } from 'react';
 import jwt_decode from 'jwt-decode';
 import axios from 'axios';
+import ChangePassword from './components/forms/ChangePassword';
+import Forgotpassword from './components/forms/Forgotpassword';
+import UserProfile from './components/dashboard/UserProfile';
 
-
- const useStyles = makeStyles((theme)=> ({
-
+const useStyles = makeStyles((theme)=> ({
+root:{
+  display: 'flex',
+  backgroundColor: 'black'
+},
+content: {
+  flexGrow: 1,
+  height: '100vh',
+  overflow: 'auto',
+},
+appBarSpacer: theme.mixins.toolbar,
+paper: {
+        padding: theme.spacing(2),
+        display: 'flex',
+        overflow: 'auto',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'rgba(8, 10, 12, 0.8)',
+        color: 'white'
+},
   scrollbar: {
     overflowY: "auto",
     margin: 0,
@@ -42,14 +63,15 @@ import axios from 'axios';
 function App() {
 const styles = useStyles();
 const [user, setUser] = useState(null);
-
+const [text, setText] = useState('Dashboard');
 const handleToken = (token) => {
   const tokenData = jwt_decode(token);
-  if(Date.now() < tokenData.exp)
+  if(Date.now() >= tokenData.exp * 1000)
   {
     localStorage.removeItem("authToken");
     setUser(null);
   }
+  console.log(tokenData);
   setUser(tokenData);
 }
 
@@ -60,26 +82,35 @@ useEffect(()=>{
 
 
 return (
-<div className={styles.scrollbar}>
-<Routes>
-  {!user && (<>
-  <Route path = "/login" element={<SignIn/>}/>
-  <Route path="/register" element={<SignUp/>}/>
-  </>)}
-        
-  {user && (<>
-  <Route path="/diaries" element={<Diaries userId={user.id}/>}/>
-  <Route path="/addnew" element={<AddItem userId={user.id}/>}/>
-  <Route path="/" element={<Dashboard name={user.name} userId={user.id}/>}/>
-  <Route path="/all/items" element={<ItemsTablePage userId={user.id}/>}/>
-  <Route exact path="/:year/in" element={<SheetList userId={user.id}/>}/>
-  <Route exact path="/:year/in/:month" element={<MonthlyItems userId={user.id}/>}/>
-  </>)}
-  <Route path="*" element={<Navigate to={user ? "/" : "/login"}/>}/>
+<>
+  {!user && (
+  <Routes>
+    <Route path = "/login" element={<SignIn/>}/>
+    <Route path="/signup" element={<SignUp/>}/>
+    <Route path='/forgot' element={<Forgotpassword/>}/>
 
-</Routes>
- </div>
-  );
+  </Routes>)}
+        
+  {user && ( 
+  <div className={styles.root}>
+    <SideDrawer text={text} userId={user.id}/>
+    <main className={styles.content}>
+      <div className={styles.appBarSpacer}>
+        <Routes>
+          <Route path="/diaries" element={<Diaries userId={user.id} setText={setText}/>}/>
+          <Route path="/addnew" element={<AddItem userId={user.id} setText={setText}/>}/>
+          <Route path="/dashboard" element={<Dashboard name={user.name} userId={user.id} setText={setText}/>}/>
+          <Route path="/all/items" element={<ItemsTablePage userId={user.id} setText={setText}/>}/>
+          <Route exact path="/:year/in" element={<SheetList userId={user.id} setText={setText}/>}/>
+          <Route exact path="/:year/in/:month" element={<MonthlyItems userId={user.id} setText={setText}/>}/>
+          <Route path='/changepass' element={<ChangePassword userId={user.id}/>}/>
+          <Route exact path="/profile" element={<UserProfile user={user}/>}/>
+          <Route path="*" element={<Navigate to={user ? "/dashboard" : "/login"}/>}/>
+        </Routes>
+      </div>
+    </main>
+  </div>)}
+</>);
 }
 
 export default App;

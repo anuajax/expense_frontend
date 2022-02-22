@@ -1,8 +1,9 @@
-import { Box, makeStyles, Typography} from '@material-ui/core';
+import { Box, IconButton, makeStyles, Typography} from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import React from 'react';
 import clsx from 'clsx';
-import CustomSelect from './Select';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 const useStyles = makeStyles((theme)=> ({
     background: {
         // backgroundColor: '#7f5a83',
@@ -20,7 +21,7 @@ const useStyles = makeStyles((theme)=> ({
     },
     img: {
         width: '155px',
-        height: '155px',
+        height: '150px',
     },
     font:{
         fontWeight: 600,
@@ -34,22 +35,33 @@ const useStyles = makeStyles((theme)=> ({
         alignItems: 'center'
     },
     icon: {
-        color: 'red',
-        marginLeft: '20px',
+        "&:hover": {
+            color: 'red'
+        },
+        marginLeft: '15px',
+        fontSize: '30px',
+        color: 'white'
     }
 
 }))
-const FolderIcon = ({year}) => {
+const FolderIcon = ({year, userId, diaryId, updated, setUpdated}) => {
     const styles = useStyles();
     let clicksound1 = new Audio("/sounds/mixkit-select-click-1109.wav");
     let clicksound2 = new Audio("/sounds/mixkit-modern-technology-select-3124.wav");
     const play = () => clicksound2.play();
+    const handleDelete = async (e) => {
+        e.preventDefault();
+        const response = await axios.delete(`http://localhost:5000/users/${userId}/diaries/${year}/${diaryId}/delete`);
+        if(response) console.log(response);
+        setUpdated(!updated);
+    }
     return (
         <div className={clsx(styles.dimension, styles.background)} onClick={play} >
             <Box display='flex' flexDirection='column' justifyContent="center" alignItems="center">
-               <img src={`/images/burn_folder_20373.png`} className={styles.img}/>
+               <Link to={`/${year}/in`}><img src={`/images/burn_folder_20373.png`} className={styles.img}/></Link>
                <span className={styles.span}>
                <Typography variant='h4' className={styles.font}>{year}</Typography>
+               <IconButton className={styles.icon} onClick={handleDelete}><DeleteIcon /></IconButton>
                </span>
             </Box>
         </div>

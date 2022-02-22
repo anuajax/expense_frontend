@@ -7,7 +7,6 @@ import FolderIcon from './FolderIcon';
 import { Link } from 'react-router-dom';
 import CreateDiary from '../forms/CreateDiary';
 import axios from 'axios';
-import CustomSelect from './Select';
 const useStyles = makeStyles((theme)=>({
 
     root: {
@@ -40,7 +39,7 @@ const useStyles = makeStyles((theme)=>({
       },
 }))
 
-const Diaries = ({userId}) => {
+const Diaries = ({userId, setText}) => {
     const styles = useStyles();
     const fixedHeightPaper = clsx(styles.paper, styles.fixedHeight);
     const [diaries, setDiaries] = useState([]);
@@ -48,31 +47,34 @@ const Diaries = ({userId}) => {
     useEffect(() => {
       async function getDiaries()
       {
+        setText('Diaries')
         const response = await axios.get(`http://localhost:5000/users/${userId}/diaries`);
-        if(response)
+        if(response){
+          console.log(response.data);
         setDiaries(response.data);
+        }
         else console.log('Error fetching diaries');
       }
       getDiaries();
     }, [updated])
     return (
-        <div className={styles.root}>
-            <SideDrawer text={`Dairies`}/>
-            <main className={styles.content}>
-                <div className={styles.appBarSpacer}>
+        // <div className={styles.root}>
+        //     <SideDrawer text={`Dairies`} userId={userId}/>
+        //     <main className={styles.content}>
+        //         <div className={styles.appBarSpacer}>
                     <Container maxWidth="lg" className={styles.container}>
                       <Paper className={styles.paper}>
-                      <Box display='flex'   flexWrap='wrap'>
+                      <Box display='flex'  flexWrap='wrap'>
                         {
-                          diaries.map(item => (<Link key={item._id} to = {`/${item.year}/in`}><FolderIcon  year={item.year}/></Link>))
+                          diaries.map(item => (<FolderIcon key={item._id} userId={userId} diaryId={item._id} updated={updated} setUpdated={setUpdated} year={item.year}/>))
                         }
                         <CreateDiary updated={updated} setUpdated={setUpdated} userId={userId}/>
                       </Box>
                        </Paper>
                     </Container>
-                </div>
-            </main>
-        </div>
+        //         </div>
+        //     </main>
+        // </div>
     )
 }
 

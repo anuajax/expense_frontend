@@ -38,7 +38,7 @@ function Copyright() {
     <Typography variant="body2" className={style.text}  align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/">
-        AayVyay
+        XpenseManagement
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -119,6 +119,7 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'auto',
   },
   container: {
+    marginTop: theme.spacing(6),
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
   },
@@ -152,13 +153,13 @@ const useStyles = makeStyles((theme) => ({
   
 }));
 
-export default function Dashboard({name, userId}) {
+export default function Dashboard({name, userId, setText}) {
   const classes = useStyles();
   const [data, setData] = useState([]);
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
   useEffect(() => {
     async function getData() {
+      setText('Dashboard');
         const response = await axios.get(`http://localhost:5000/users/${userId}/items`);
         if(response) setData(response.data);
         else console.log('Error fetching data');
@@ -166,52 +167,8 @@ export default function Dashboard({name, userId}) {
     getData();
   }, []);
 
-  
-
   return (
-    <div className={classes.root}>
-      {/* <CssBaseline />
-      <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
-        <Toolbar className={classes.toolbar}>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Dashboard
-          </Typography>
-          <IconButton color='inherit'>
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        variant="permanent"
-        classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-        }}
-        open={open}>
-
-        <div className={classes.toolbarIcon} >
-          <IconButton onClick={handleDrawerClose} color='inherit'>
-            <ChevronLeftIcon color='inherit'/>
-          </IconButton>
-        </div>
-        <Divider />
-        <List><MainListItems/></List>
-        <Divider className={classes.whitecolor}/>
-        <List>{<SecondaryListItems/>}</List>
-      </Drawer> */}
-      <SideDrawer text={"Dashboard"}/>
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
+        
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             {/* Welcome */}
@@ -228,16 +185,14 @@ export default function Dashboard({name, userId}) {
             </Grid>
             {/* Recent Orders */}
             <Grid item xs={12}>
-              <Paper className={clsx(classes.paper)}>
+              
                 <Chart data={data}/>
-              </Paper>
+           
             </Grid>
           </Grid>
           <Box pt={4}>
             <Copyright />
           </Box>
         </Container>
-      </main>
-    </div>
-  );
+        );
 }
