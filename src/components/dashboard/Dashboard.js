@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
@@ -7,7 +7,6 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
-
 import Welcome from './Welcome';
 import Highlights from './Highlights';
 import Chart from './Chart';
@@ -153,6 +152,7 @@ const useStyles = makeStyles((theme) => ({
   
 }));
 
+
 export default function Dashboard({name, userId, setText}) {
   const classes = useStyles();
   const [data, setData] = useState([]);
@@ -185,9 +185,9 @@ export default function Dashboard({name, userId, setText}) {
             </Grid>
             {/* Recent Orders */}
             <Grid item xs={12}>
-              
+      
                 <Chart data={data}/>
-           
+              
             </Grid>
           </Grid>
           <Box pt={4}>

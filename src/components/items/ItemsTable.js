@@ -12,13 +12,16 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import TableRow from '@material-ui/core/TableRow';
 import SideDrawer from '../NavBars/SideDrawer';
 import EditTwoToneIcon from '@material-ui/icons/EditTwoTone';
-import { Box, Fab } from '@material-ui/core';
+import { Box, Fab, Menu, MenuItem, Divider } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import EditItemDialog from '../forms/EditItem';
 import Item from './itemRow';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
+import LocalPrintshopTwoToneIcon from '@material-ui/icons/LocalPrintshopTwoTone';
+import IconButton from '@material-ui/core/IconButton';
+import { PrintPDF } from '../../utils/createPDF';
 
 const useStyles = makeStyles((theme)=>({
   roott: {
@@ -130,6 +133,9 @@ function ItemsTable({year,month, userId})
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [updated, setUpdated] = useState(false);
+  const [dataToPrint, setDataToPrint] =useState(null);
+  const [print, setPrint] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const history = useNavigate()
   useEffect(() => {
     async function getAllItems() {
@@ -151,6 +157,10 @@ function ItemsTable({year,month, userId})
     getAllItems();
   }, [updated])
 
+  useEffect(() => {
+    if(dataToPrint !== null)
+    PrintPDF(dataToPrint);
+  }, [dataToPrint]);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -216,8 +226,18 @@ function ItemsTable({year,month, userId})
  {
    setUpdated(value);
  }
-const printPDF = () => {
-
+ const handleClickPrintMenu = (event) => {
+  setAnchorEl(event.currentTarget);
+};
+ const handleClosePrintMenu =() => {
+   setAnchorEl(null);
+ }
+const handlePagePrint = () => {
+    setDataToPrint(data.slice(page*rowsPerPage, page*rowsPerPage + rowsPerPage));
+}
+const handlePrint =  () => {
+  setDataToPrint(data);
+  
 }
     return (
         // <div className={styles.roott}>
@@ -264,11 +284,20 @@ const printPDF = () => {
                                 </TableRow>
                             </TableBody>
                           </Table>
+                          
                       </TableContainer>
+                   <Box display='flex' alignItems='center'>
+                    <span onClick={handleClickPrintMenu}><LocalPrintshopTwoToneIcon style={{marginRight: '10px'}}/></span>
+                    <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClosePrintMenu}>
+                          <MenuItem onClick={handlePrint}>All</MenuItem>       
+                          <Divider/>
+                          <MenuItem onClick={handlePagePrint}>This Page</MenuItem>
+                    </Menu>
                       <TablePagination rowsPerPageOptions={[10, 25, 100]} component="div"
                                         count={data.length} rowsPerPage={rowsPerPage}
                                         page={page} onPageChange={handleChangePage} 
                                         onRowsPerPageChange={handleChangeRowsPerPage} style={{color: 'white'}}/>
+                    </Box>
                     </>
                     
         //         </div>

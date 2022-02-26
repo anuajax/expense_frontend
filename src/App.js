@@ -99,13 +99,13 @@ return (
         <Routes>
           <Route path="/diaries" element={<Diaries userId={user.id} setText={setText}/>}/>
           <Route path="/addnew" element={<AddItem userId={user.id} setText={setText}/>}/>
-          <Route path="/dashboard" element={<Dashboard name={user.name} userId={user.id} setText={setText}/>}/>
+          <Route path="/" element={<Dashboard name={user.name} userId={user.id} setText={setText}/>}/>
           <Route path="/all/items" element={<ItemsTablePage userId={user.id} setText={setText}/>}/>
           <Route exact path="/:year/in" element={<SheetList userId={user.id} setText={setText}/>}/>
           <Route exact path="/:year/in/:month" element={<MonthlyItems userId={user.id} setText={setText}/>}/>
           <Route path='/changepass' element={<ChangePassword userId={user.id}/>}/>
           <Route exact path="/profile" element={<UserProfile user={user}/>}/>
-          <Route path="*" element={<Navigate to={user ? "/dashboard" : "/login"}/>}/>
+          <Route path="*" element={<Navigate to={user ? "/" : "/login"}/>}/>
         </Routes>
       </div>
     </main>

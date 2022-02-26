@@ -21,7 +21,7 @@ const ChangePassword = ({userId}) => {
       marginBottom: '10px'
     }
   }))
-    const [password, setPassword] = useState('');
+    const [password, setPassword] = useState();
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
     const [message, setMessage] = useState('');
@@ -56,10 +56,10 @@ setSeverity('error');
     <h3>Changing Password!!</h3>
     {message ? <Alert severity={severity} className={styles.alert}>{message}</Alert>:<div></div>}
      <form onSubmit={handleSubmit}>
-        <TextField required className={styles.field} label="Old Password" variant = "outlined" type="password" name="password" id="pass" value={password} onChange={(e)=>setPassword(e.target.value)}/>
-        <TextField required className={styles.field} label="New Password" variant = "outlined" type="password" name="newpassword" id="newpass" value={newPassword} onChange={(e)=>setNewPassword(e.target.value)}/>
-        <TextField required className={styles.field} label="Confirm Password" variant = "outlined" type="password" name="confirmpassword" id="confirmpass" value={confirmNewPassword} onChange={(e)=>setConfirmNewPassword(e.target.value)}/>
-        <Button type="submit"   name="changepass" id="chnagepass" onClick = {handleSubmit}>Save</Button>
+        <TextField className={styles.field} label="Old Password" variant = "outlined" type="password" name="password" id="pass" value={password} onChange={(e)=>setPassword(e.target.value)} required={true}/>
+        <TextField className={styles.field} label="New Password" variant = "outlined" type="password" name="newpassword" id="newpass" value={newPassword} onChange={(e)=>setNewPassword(e.target.value)} required={true}/>
+        <TextField className={styles.field} label="Confirm Password" variant = "outlined" type="password" name="confirmpassword" id="confirmpass" value={confirmNewPassword} onChange={(e)=>setConfirmNewPassword(e.target.value)} required={true}/>
+        <Button type="submit" name="changepass" id="chnagepass" onClick = {handleSubmit}>Save</Button>
     </form>
   </div>);
 };

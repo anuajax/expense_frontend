@@ -29,11 +29,14 @@ const Highlights = () => {
             
                 <NewsTicker rowHeight={60} maxRows={2} speed = {600} direction = {Directions.UP} duration = {8000}
                             autoStart = {true} pauseOnHover = {false}>
-                    <Box className={styles.font}>  Site URL: https://www.getwatercooler.com/ </Box>
-                     <Box  className={styles.font}> Bullet points — Items—known as "bullet points"</Box>
-                     <Box  className={styles.font}>  Bullet point is a typographical symbol or glyph used to introduce items in a list.</Box>
-                    <Box  className={styles.font}>  Bullet point is a typographical symbol or glyph used to introduce items in a list.</Box> 
+                              
+                    <Box className={styles.font}>   news[0].title</Box>
+                     <Box  className={styles.font}> news[2].title</Box>
+                     <Box  className={styles.font}> news[3].title</Box>
+                    <Box  className={styles.font}>  news[4].title</Box> 
+                
                 </NewsTicker> 
+
             
         </Box>
     )
