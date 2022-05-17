@@ -18,6 +18,7 @@ import axios from 'axios';
 import ChangePassword from './components/forms/ChangePassword';
 import Forgotpassword from './components/forms/Forgotpassword';
 import UserProfile from './components/dashboard/UserProfile';
+import NewPassword from './components/forms/NewPassword';
 
 const useStyles = makeStyles((theme)=> ({
 root:{
@@ -88,7 +89,7 @@ return (
     <Route path = "/login" element={<SignIn/>}/>
     <Route path="/signup" element={<SignUp/>}/>
     <Route path='/forgot' element={<Forgotpassword/>}/>
-
+    <Route path='/resetpass/:token' element={<NewPassword/>}/>
   </Routes>)}
         
   {user && ( 

@@ -54,7 +54,6 @@ const useStyles = makeStyles((theme) => ({
     },
     paperRoot: {
       backgroundColor: 'rgba(0,0,0,0.6)',
-      
       boxShadow: '0 0 15px #9ecaed',
       position: 'relative',
   },

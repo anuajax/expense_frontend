@@ -156,6 +156,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Dashboard({name, userId, setText}) {
   const classes = useStyles();
   const [data, setData] = useState([]);
+  const [news, setNews] = useState([]);
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   useEffect(() => {
     async function getData() {
@@ -163,6 +164,8 @@ export default function Dashboard({name, userId, setText}) {
         const response = await axios.get(`http://localhost:5000/users/${userId}/items`);
         if(response) setData(response.data);
         else console.log('Error fetching data');
+        const response_news  = await axios.get("https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=b511741219fe4f9284ff6bb5f9874e97");
+        setNews(response_news.data.articles);
     }
     getData();
   }, []);
@@ -180,7 +183,7 @@ export default function Dashboard({name, userId, setText}) {
             {/* Recent Deposits */}
             <Grid item xs={12} md={4} lg={4}>
               <Paper className={clsx(fixedHeightPaper, classes.highlights)}>
-                <Highlights/>
+                <Highlights news={news}/>
               </Paper>
             </Grid>
             {/* Recent Orders */}
