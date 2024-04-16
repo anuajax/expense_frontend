@@ -3,6 +3,8 @@ import {Typography, InputBase, Button, makeStyles} from '@material-ui/core';
 import axios from 'axios';
 import TextField from '@material-ui/core/TextField';
 import { Alert } from '@material-ui/lab';
+import {io} from 'socket.io-client';
+
 const ChangePassword = ({userId}) => {
 
   const useStyles = makeStyles((theme) => ({
@@ -43,8 +45,9 @@ try {
 const response = await axios.post(`http://localhost:5000/users/${userId}/changepass`, {password, newPassword, confirmNewPassword});
 setMessage(response.data);
 setConfirmNewPassword('');
-setPassword('')
-setNewPassword('')
+setPassword('');
+setNewPassword('');
+
 }
 catch(err) {
 setMessage(err.response.data.error);

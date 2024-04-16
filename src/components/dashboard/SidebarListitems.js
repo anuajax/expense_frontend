@@ -58,7 +58,7 @@ const classes = useStyles();
       <ListItemText primary="All Items" />
     </ListItem>
     
-    <ListItem button className={classes.listitem} component={Link} to ={'/profile'}>
+    <ListItem button className={classes.listitem} component={Link} to ={'/recurring-items'}>
       <ListItemIcon>
         <LayersIcon className={classes.icons}/>
       </ListItemIcon>
