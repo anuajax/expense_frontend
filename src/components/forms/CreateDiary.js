@@ -11,9 +11,9 @@ import Fab from '@material-ui/core/Fab';
 import axios from 'axios';
 import NewDiaryIcon from '../diaries/NewDiaryIcon';
 
-export default function CreateDiary({ updated, setUpdated }) {
-  const [open, setOpen] = React.useState(false);
-  const [year, setYear] = useState();
+export default function CreateDiary({ updated, setUpdated, userId }) {
+  const [open, setOpen] = useState(false);
+  const [year, setYear] = useState(0);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -24,9 +24,8 @@ export default function CreateDiary({ updated, setUpdated }) {
   };
   async function handleSubmit(e) {
     e.preventDefault();
-    const response = await axios.post("http://localhost:5000/diaries/new", { year });
+    const response = await axios.post(`http://localhost:5000/users/${userId}/diaries/new`, { year:year });
     if(response) alert(response.data);
-    setYear(0);
     handleClose();
     setUpdated(!updated);
   }
@@ -52,7 +51,7 @@ export default function CreateDiary({ updated, setUpdated }) {
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleSubmit} color="primary">
+          <Button type="submit" onClick={handleSubmit} color="primary">
             Create
           </Button>
         </DialogActions>

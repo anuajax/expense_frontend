@@ -47,7 +47,7 @@ class DateTime extends Component
                     {date}
                 </Typography>
                 <Typography variant="subtitle2">
-                    {`${wish}, ${this.props.user}`}
+                    {`${wish}, ${this.props.name}`}
                 </Typography>
                 </Box>
         )

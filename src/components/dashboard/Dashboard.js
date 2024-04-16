@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
@@ -7,7 +7,6 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
-
 import Welcome from './Welcome';
 import Highlights from './Highlights';
 import Chart from './Chart';
@@ -38,7 +37,7 @@ function Copyright() {
     <Typography variant="body2" className={style.text}  align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/">
-        AayVyay
+        XpenseManagement
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -119,6 +118,7 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'auto',
   },
   container: {
+    marginTop: theme.spacing(6),
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
   },
@@ -152,97 +152,50 @@ const useStyles = makeStyles((theme) => ({
   
 }));
 
-export default function Dashboard({user}) {
+
+export default function Dashboard({name, userId, setText}) {
   const classes = useStyles();
   const [data, setData] = useState([]);
-  const history = useNavigate();
+  const [news, setNews] = useState([]);
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
   useEffect(() => {
     async function getData() {
-       if(!localStorage.getItem("authToken")){
-         return history("/login");
-         }
-         const loggedInUser = jwt_decode(localStorage.getItem("authToken"));
-        const response = await axios.get(`http://localhost:5000/users/${loggedInUser.id}/items`);
+      setText('Dashboard');
+        const response = await axios.get(`http://localhost:5000/users/${userId}/items`);
         if(response) setData(response.data);
         else console.log('Error fetching data');
+        const response_news  = await axios.get("https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=b511741219fe4f9284ff6bb5f9874e97");
+        setNews(response_news.data.articles);
     }
     getData();
   }, []);
 
-  
-
   return (
-    <div className={classes.root}>
-      {/* <CssBaseline />
-      <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
-        <Toolbar className={classes.toolbar}>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Dashboard
-          </Typography>
-          <IconButton color='inherit'>
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        variant="permanent"
-        classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-        }}
-        open={open}>
-
-        <div className={classes.toolbarIcon} >
-          <IconButton onClick={handleDrawerClose} color='inherit'>
-            <ChevronLeftIcon color='inherit'/>
-          </IconButton>
-        </div>
-        <Divider />
-        <List><MainListItems/></List>
-        <Divider className={classes.whitecolor}/>
-        <List>{<SecondaryListItems/>}</List>
-      </Drawer> */}
-      <SideDrawer text={"Dashboard"}/>
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
+        
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             {/* Welcome */}
             <Grid item xs={12} md={8} lg={8}>
               <Paper className={clsx( fixedHeightPaper, classes.welcome)}>
-                <Welcome />
+                <Welcome name={name}/>
               </Paper>
             </Grid>
             {/* Recent Deposits */}
             <Grid item xs={12} md={4} lg={4}>
               <Paper className={clsx(fixedHeightPaper, classes.highlights)}>
-                <Highlights/>
+                <Highlights news={news}/>
               </Paper>
             </Grid>
             {/* Recent Orders */}
             <Grid item xs={12}>
-              <Paper className={clsx(classes.paper)}>
+      
                 <Chart data={data}/>
-              </Paper>
+              
             </Grid>
           </Grid>
           <Box pt={4}>
             <Copyright />
           </Box>
         </Container>
-      </main>
-    </div>
-  );
+        );
 }

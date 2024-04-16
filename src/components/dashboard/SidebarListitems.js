@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 export const MainListItems = () => {
 const classes = useStyles();
   return (<div>
-   <ListItem button className={classes.listitem} component={Link} to={'/'}>
+   <ListItem button className={classes.listitem} component={Link} to={'/dashboard'}>
       <ListItemIcon>
         <DashboardIcon className={classes.icons}/>
       </ListItemIcon>
@@ -58,7 +58,7 @@ const classes = useStyles();
       <ListItemText primary="All Items" />
     </ListItem>
     
-    <ListItem button className={classes.listitem}>
+    <ListItem button className={classes.listitem} component={Link} to ={'/recurring-items'}>
       <ListItemIcon>
         <LayersIcon className={classes.icons}/>
       </ListItemIcon>

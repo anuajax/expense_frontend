@@ -1,11 +1,12 @@
 import { makeStyles, Container, Box, Paper, Typography, Divider, Fab } from '@material-ui/core';
-import React from 'react';
+import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import SideDrawer from '../NavBars/SideDrawer';
 import SheetIcon from './SheetIcon';
 import { useParams } from 'react-router';
-import CustomSelect from './Select';
+import { useLocation } from 'react-router-dom';
 import  DeleteIcon  from '@material-ui/icons/Delete';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme)=>({
     root: {
@@ -44,19 +45,23 @@ const useStyles = makeStyles((theme)=>({
     },
 }))
 
-const SheetList = ({props}) => {
+const SheetList = ({setText, userId}) => {
     const styles = useStyles();
     const fixedHeightPaper = clsx(styles.paper, styles.fixedHeight);
     let arr = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     let {year} = useParams();
+    const { state } = useLocation();
+    useEffect(()=>{setText(`${year} data`)}, []);
+
+    
     return (
-        <div className={styles.root}>
-            <SideDrawer text={`${year} data`}/>
-            <main className={styles.content}>
-                <div className={styles.appBarSpacer}>
+        // <div className={styles.root}>
+        //     <SideDrawer text={`${year} data`} userId={userId}/>
+        //     <main className={styles.content}>
+        //         <div className={styles.appBarSpacer}>
                     <Container maxWidth="lg" className={styles.container}>
                       <Paper className={styles.paper}>
-                          <Fab><DeleteIcon/></Fab>
+                
                           <Box m={2}>
                             <Typography variant="h5" align="center">
                                 {year}
@@ -68,10 +73,10 @@ const SheetList = ({props}) => {
                             </Box>
                        </Paper>
                     </Container>
-                </div>
+        //         </div>
 
-            </main>
-        </div>
+        //     </main>
+        // </div>
     )
 }
 

@@ -1,9 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import SideDrawer from '../NavBars/SideDrawer';
 import ItemsTable from './ItemsTable';
 import { Paper } from '@material-ui/core';
-import axios from 'axios';
 const useStyles = makeStyles((theme)=>({
     roott: {
         display: 'flex',
@@ -18,8 +16,7 @@ const useStyles = makeStyles((theme)=>({
       container: {
         marginTop: theme.spacing(6),
         paddingTop: theme.spacing(4),
-        paddingBottom: theme.spacing(4),
-       
+        paddingBottom: theme.spacing(4),    
       },
       paper: {
         padding: theme.spacing(2),
@@ -30,8 +27,7 @@ const useStyles = makeStyles((theme)=>({
         justifyContent: 'center',
         width: '100%',
         marginBottom: theme.spacing(2),
-        backgroundColor : '#000000',
-        backgroundImage : 'linear-gradient(147deg, #000000 0%, #2E2E2E 74%)',
+        backgroundColor: 'rgba(8, 10, 12, 0.8)',
         color: 'white'
       },
       fixedHeight: {
@@ -42,24 +38,13 @@ const useStyles = makeStyles((theme)=>({
       }   
 }));
 
-
-
-
-const ItemsTablePage = () => {
+const ItemsTablePage = ({userId, setText}) => {
     const styles = useStyles();
-   
+    useEffect(() => { setText('All Items') }, [])
     return (
-        <div className={styles.roott}>
-        <SideDrawer text={`All Items`}/>
-        <main className={styles.content}>
-            <div className={styles.appBarSpacer}>
-              <Paper className={styles.paper}>
-                <ItemsTable year={0} month={0}/>
-              </Paper>
-            </div>
-            </main>
-        </div>
+        <Paper className={styles.paper}>
+            <ItemsTable year={0} month={0} userId={userId}/>
+        </Paper>
     )
 }
-
 export default ItemsTablePage

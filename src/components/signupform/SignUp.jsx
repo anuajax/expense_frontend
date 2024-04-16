@@ -17,14 +17,22 @@ import PhoneInput from "react-phone-input-2";
 import 'react-phone-input-2/lib/style.css';
 import PhoneInputCountry from '../InputElements/PhoneInputCountry';
 import UserContext from '../../context/userContext.js';
+import PersonIcon from '@material-ui/icons/Person';
+import LockIcon from '@material-ui/icons/Lock';
+import EmailIcon from '@material-ui/icons/Email';
 import axios from 'axios';
+import './signup.css'
+import Paper from '@material-ui/core/Paper';
+import clsx from 'clsx'
+import { InputBase } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/">
-        Aay-Vyay
+        ExpenseAudit
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -34,26 +42,61 @@ function Copyright() {
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        backgroundColor: theme.palette.grey[700]
+      backgroundImage: 'url(https://images.unsplash.com/photo-1524334228333-0f6db392f8a1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80)',
+      backgroundSize: 'cover',
+      height: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      color: 'white',
+      backgroundPosition: '100%'
     },
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    
+    paperRoot: {
+      backgroundColor: 'rgba(0,0,0,0.6)',
+      boxShadow: '0 0 15px #9ecaed',
+      position: 'relative',
   },
+  paper: {
+      margin: theme.spacing(5, 3),
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      backgroundColor: theme.palette.grey
+    },
+  font:{
+    fontSize: '1.5rem',
+    margin: theme.spacing(2),
+    textAlign: 'center',
+    color: 'white'
+},
+submit:{
+margin: theme.spacing(3, 0, 2)
+},
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
+  textfield: {
+    width: '280px',
+    border: "2px solid red",
+    borderRadius : theme.shape.borderRadius,
+    padding: theme.spacing(1),
+    background: 'transparent',
+    border: 'none',
+    outline: 'none',
+    color: '#222',
+    fontSize: '16px',
+    fontFamily: 'Poppins,sans-serif',
   },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
+  input:{
+    background: 'whitesmoke',//rgba(255,255,255,0.94)
+    height: '50px',
+    marginBottom: theme.spacing(2)
   },
+  alert: {
+    marginBottom: theme.spacing(3)
+  }
 }));
 
 export default function SignUp({setToken, setUser}) {
@@ -62,7 +105,8 @@ export default function SignUp({setToken, setUser}) {
   const [email, setEmail] = useState('');
   const [tel, setTel] = useState('');
   const [password, setPassword] = useState('');
-  const history = useNavigate();
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
   //const { setUserData } = useContext(UserContext);
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -74,74 +118,47 @@ export default function SignUp({setToken, setUser}) {
         if(response){
           const { user, token } = response.data;
           localStorage.setItem("authToken", token);
-          history("/");
+          window.location.href = "/dashboard";
         }
       }     
     }
     catch(err){
+      setError(err.response.data.error);
       console.error(err);
     }
   }
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
+    <Box className={classes.root}>
+      <Grid item xs={12} sm={8} md={4} component={Paper} elevation={1} square className={classes.paperRoot}>
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">Sign up</Typography>
-        <form className={classes.form} onSubmit={handleSubmit} noValidate>
+        <Avatar className={classes.avatar}><LockOutlinedIcon/></Avatar>
+        <Typography component="h1" variant="h5" style={{color: 'whitesmoke', margin: '20px'}}>Sign up</Typography>
+        {error && <Alert severity='error' className={classes.alert}>{error}</Alert>}
+        <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
-              <TextField autoComplete="name" name="Name" variant="outlined" required fullWidth value={name}
-                         id="Name" label="Name" autoFocus onChange={(e)=>setName(e.target.value)}/>
+            <Grid item xs={12} sm={12} className={classes.input}>
+              <InputBase className={classes.textfield} autoComplete="name" name="Name" variant="outlined" required value={name}
+                         id="Name" placeholder="Name" autoFocus onChange={(e)=>setName(e.target.value)}/>
             </Grid>
-            {/* <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="lname"
-              />
-            </Grid> */}
-            <Grid item xs={12}>
-              <TextField variant="outlined" required fullWidth id="email" label="Email Address" value={email} 
+            <Grid item xs={12} sm={12} className={classes.input}>
+              <InputBase  className={classes.textfield} variant="outlined" required id="email" placeholder="Email Address" value={email} 
                          name="email" autoComplete="email" onChange={(e)=> setEmail(e.target.value)}/>
             </Grid>
-            <Grid item xs={12}>
-              <TextField variant="outlined" required fullWidth name="password" label="Password" type="password" value={password}
+            <Grid item xs={12} sm={12} className={classes.input}>
+              <InputBase  className={classes.textfield} variant="outlined" required name="password" placeholder="Password" type="password" value={password}
                          id="password" autoComplete="current-password" onChange={(e)=>setPassword(e.target.value)}/>
             </Grid>
-            <Grid item xs={12}>
-             
-            <PhoneInputCountry setTel={setTel}/>    
-            </Grid>
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive inspiration, marketing promotions and updates via email."
-              />
-            </Grid>
+            <Grid className='space' item xs={12}><PhoneInputCountry setTel={setTel}/></Grid>
           </Grid>
-          <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
-            Sign Up
-          </Button>
-          <Grid container justifyContent="flex-end">
-            <Grid item>
-              <Link href="/" variant="body2">
-                Already have an account? Sign in
-              </Link>
-            </Grid>
+          <Grid container alignItems='center' justifyContent='space-around'>
+            <Button type="submit" variant="contained" color="secondary" className={classes.submit}>Sign Up</Button>
+            <Link href="/login" variant="body2" style={{color: 'whitesmoke'}}>Already have an account? <span>Sign in</span></Link>
           </Grid>
         </form>
+        
       </div>
-      <Box mt={5}>
-        <Copyright />
-      </Box>
-    </Container>
+      </Grid>
+    </Box>
   );
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -15,6 +15,11 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { MainListItems, SecondaryListItems } from '../dashboard/SidebarListitems';
+import Button from '@material-ui/core/Button';
+import { FormControlLabel } from '@material-ui/core';
+import RoomIcon from '@material-ui/icons/Room';
+import { useNavigate } from 'react-router-dom';
+
 
 const drawerWidth = 240;
 
@@ -100,12 +105,20 @@ backgroundImage: 'linear-gradient(147deg, #000000 0%, #434343 74%)'
   }
 
 }));
-const SideDrawer = ({text}) => 
+const SideDrawer = ({text, userId}) => 
 {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
-    const handleDrawerOpen = () => {
-      setOpen(true);
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+      if(userId){
+        localStorage.removeItem("authToken");
+        window.location.href = "/login";
+      }
+    }
+    const handleDrawerOpen = (value) => {
+      setOpen(value);
     };
     const handleDrawerClose = () => {
       setOpen(false);
@@ -120,7 +133,7 @@ const SideDrawer = ({text}) =>
               edge="start" 
               color="inherit"
               aria-label="open drawer"
-              onClick={handleDrawerOpen}
+              onClick={()=>handleDrawerOpen(true)}
               className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
             >
               <MenuIcon />
@@ -133,8 +146,12 @@ const SideDrawer = ({text}) =>
                 <NotificationsIcon />
               </Badge>
             </IconButton>
+            <IconButton color='inherit'>
+              <Button color="secondary" variant="contained" onClick={handleClick} size="small">Logout</Button>
+            </IconButton>
           </Toolbar>
         </AppBar>
+        
         <Drawer
           variant="permanent"
           classes={{
