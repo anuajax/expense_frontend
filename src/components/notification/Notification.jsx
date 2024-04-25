@@ -54,7 +54,7 @@ const Notification = ({ userId, setText }) => {
 
         const getNotifications = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/users/${userId}/notifications`);
+                const response = await axios.get(`/users/${userId}/notifications`);
                 console.log(altText);
                 if (response) {
                     setNotifications(response.data);

@@ -9,7 +9,7 @@ const ProfileEdit = ({item, toggleEditing, editingDone, updated, userId}) => {
      e.preventDefault();
      const name = value;
     try {
-    const response = await axios.post(`http://localhost:5000/users/${userId}/profile/edit`,  {name});
+    const response = await axios.post(`/users/${userId}/profile/edit`,  {name});
     toggleEditing();
     editingDone(!updated);
     }

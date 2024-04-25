@@ -137,7 +137,7 @@ function ItemsTable({ year, month, userId }) {
     async function getAllItems() {
       try{
       const response = await axios.get(
-        `http://localhost:5000/users/${userId}/items`
+        `/users/${userId}/items`
       );
       if (response) {
         if (year === 0) setData(response.data);

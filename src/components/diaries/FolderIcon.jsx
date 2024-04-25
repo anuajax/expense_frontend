@@ -52,7 +52,7 @@ const FolderIcon = ({ year, userId, diaryId, updated, setUpdated }) => {
     const play = () => clicksound2.play().catch(error => console.error("Cnnot play sound"));
     const handleDelete = async (e) => {
         e.preventDefault();
-        const response = await axios.delete(`http://localhost:5000/users/${userId}/diaries/${year}/${diaryId}/delete`);
+        const response = await axios.delete(`/users/${userId}/diaries/${year}/${diaryId}/delete`);
         if (response) console.log(response);
         setUpdated(!updated);
     }

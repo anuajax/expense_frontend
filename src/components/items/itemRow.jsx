@@ -32,7 +32,7 @@ const Item = ({ columns, row, editingDone, updated, userId }) => {
   const [isEditing, toggleIsEditing] = useToggle(false);
 
   async function handleDelete() {
-    const response = await axios.delete(`http://localhost:5000/users/${userId}/items/${row._id}/delete`);
+    const response = await axios.delete(`/users/${userId}/items/${row._id}/delete`);
     if (response) {
       console.log(response.data);
       alert(response.data);

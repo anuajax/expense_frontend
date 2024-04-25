@@ -96,7 +96,7 @@ const RecurringItemEdit = ({userId, tableUpdated, setTableUpdated, isEditing, se
         const itemDetails = {name: item, amount, date, type: radio, user: userId};
         const recurrence = {frequency, interval, dayOfWeek: days, dayOfMonth: day};
         const data = {startDate: date, recurrence, taskDetails:itemDetails, user:userId};
-        const response = await axios.put(`http://localhost:5000/users/${userId}/items-recurring/${row._id}`, data);
+        const response = await axios.put(`/users/${userId}/items-recurring/${row._id}`, data);
         if(response)
             {
                 handleCloseEdit();

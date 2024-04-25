@@ -42,7 +42,7 @@ const ChangePassword = ({userId}) => {
 const handleSubmit = async (e) => {
  e.preventDefault();
 try {
-const response = await axios.post(`http://localhost:5000/users/${userId}/changepass`, {password, newPassword, confirmNewPassword});
+const response = await axios.post(`/users/${userId}/changepass`, {password, newPassword, confirmNewPassword});
 setMessage(response.data);
 setConfirmNewPassword('');
 setPassword('');

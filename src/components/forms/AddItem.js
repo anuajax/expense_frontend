@@ -125,7 +125,7 @@ const checkFilledI = (itemI,amountI,dateI) => !itemI.trim() && !amountI.trim() &
 
   async function postRequest(formdata) {
     const response = await axios.post(
-      `http://localhost:5000/users/${userId}/items/new`,
+      `/users/${userId}/items/new`,
       formdata
     );
     if (response) return response.data;
