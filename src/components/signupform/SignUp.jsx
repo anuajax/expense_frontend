@@ -112,9 +112,9 @@ export default function SignUp({ setToken, setUser }) {
     e.preventDefault();
     try {
       const user = { name, email, password, tel };
-      const resp = await axios.post("/register", user);
+      const resp = await axios.post("register", user);
       if (resp) {
-        const response = await axios.post("/login", { email, password });
+        const response = await axios.post("login", { email, password });
         if (response) {
           const { user, token } = response.data;
           localStorage.setItem("authToken", token);
