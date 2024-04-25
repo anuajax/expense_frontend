@@ -1,8 +1,7 @@
-import { makeStyles, Paper, Switch } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import "./App.css";
 import Dashboard from "./components/dashboard/Dashboard";
 import Diaries from "./components/diaries/Diaries";
-import FolderIcon from "./components/diaries/FolderIcon";
 import SignIn from "./components/loginform/SignIn";
 import SignUp from "./components/signupform/SignUp";
 import SideDrawer from "./components/NavBars/SideDrawer";
@@ -10,22 +9,19 @@ import SheetList from "./components/diaries/SheetsList";
 import {
   Routes,
   Route,
-  BrowserRouter,
-  useNavigate,
   Navigate,
 } from "react-router-dom";
 import AddItem from "./components/forms/AddItem";
-import ItemsTable from "./components/items/ItemsTable";
 import MonthlyItems from "./components/items/monthlyItems";
 import ItemsTablePage from "./components/items/itemsTablePage";
 import { useState, useEffect } from "react";
 import jwt_decode from "jwt-decode";
-import axios from "axios";
 import ChangePassword from "./components/forms/ChangePassword";
 import Forgotpassword from "./components/forms/Forgotpassword";
 import UserProfile from "./components/dashboard/UserProfile";
 import NewPassword from "./components/forms/NewPassword";
 import TaskTable from "./components/automatedTasks/TaskTable";
+import Notification from './components/notification/Notification';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -77,14 +73,24 @@ function App() {
       localStorage.removeItem("authToken");
       setUser(null);
     }
-    console.log(tokenData);
     setUser(tokenData);
   };
-
+  console.log(window.location.pathname);
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     token ? handleToken(token) : setUser(null);
   }, []);
+
+    // const getUser = async () => {
+  //   try{
+  //   const response = await axios.get('http://localhost:5000/user');
+  //   if(response) setUser(response.data.user);
+  //   }
+  //   catch(error){
+  //     console.log(error);
+  //   }
+  // }
+  //useEffect(() => getUser() , []);
 
   return (
     <>
@@ -144,8 +150,9 @@ function App() {
                 />
                 <Route
                   path="/recurring-items"
-                  element={<TaskTable userId={user.id} />}
+                  element={<TaskTable userId={user.id} setText={setText} />}
                 />
+                <Route  path="/notifications" element={<Notification userId={user.id} setText={setText}/>}/>
                 <Route
                   exact
                   path="/profile"

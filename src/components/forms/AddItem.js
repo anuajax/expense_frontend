@@ -158,27 +158,7 @@ const checkFilledI = (itemI,amountI,dateI) => !itemI.trim() && !amountI.trim() &
     setDateI("");
   }
   
-  // const modalBody = ModalForm
-  //   <div
-  //     style={{
-  //       position: "absolute",
-  //       top: "50%",
-  //       left: "50%",
-  //       transform: "translate(-50%, -50%)",
-  //       width: 400,
-  //       backgroundColor: "white",
-  //       padding: 20,
-  //     }}
-  //   >
-  //     <Typography variant="h6" id="modal-title">
-  //       Set Frequency
-  //     </Typography>
-  //     <Typography variant="subtitle1" id="simple-modal-description">
-  //       Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-  //     </Typography>
-  //     <Button onClick={handleCloseModal}>Close</Button>
-  //   </div>
-  // );
+
   return (
     <>
       <Container maxWidth="lg" className={styles.container} >
