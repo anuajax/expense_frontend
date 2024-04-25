@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import axios from 'axios';
 
-axios.defaults.baseURL = 'https://expenses-kqvyo0wo5-anurags-projects-14450284.vercel.app';
+axios.defaults.baseURL = 'https://expenses-qp2dl56zp-anurags-projects-14450284.vercel.app';
 axios.defaults.withCredentials=true;
 // axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('authToken');
 // const api = axios.create({
