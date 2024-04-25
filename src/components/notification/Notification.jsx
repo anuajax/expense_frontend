@@ -37,8 +37,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-const socket = io('http://localhost:3000');
-
 const Notification = ({ userId, setText }) => {
 
     const styles = useStyles();
@@ -47,10 +45,10 @@ const Notification = ({ userId, setText }) => {
     const [altText, setAltText] = useState('No notifications yet !!');
     useEffect(() => {
         setText('Notifications');
-        socket.emit('joinRoom', userId);
-        socket.on('newNotification', (notification) => {
-            setNotifications(prev => [...prev, notification]);
-        });
+        // socket.emit('joinRoom', userId);
+        // socket.on('newNotification', (notification) => {
+        //     setNotifications(prev => [...prev, notification]);
+        // });
 
         const getNotifications = async () => {
             try {
@@ -64,7 +62,7 @@ const Notification = ({ userId, setText }) => {
             }
         }
         getNotifications();
-        return () => socket.off('newNotification');
+        //return () => socket.off('newNotification');
     }, []);
 
     return (
