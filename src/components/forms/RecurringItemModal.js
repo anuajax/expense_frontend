@@ -60,8 +60,8 @@ const RecurringItemModal = ({userId, isModalOpen, handleCloseModal, tableUpdated
     const [state, setState] = useState({
         frequency: 'Day',
         interval: 1,
-        month: '',
-        day: null,
+        month: null,
+        day: 1,
         item: '',
         amount: '',
         date: ''
@@ -89,7 +89,7 @@ const RecurringItemModal = ({userId, isModalOpen, handleCloseModal, tableUpdated
         e.preventDefault();
         const {frequency, interval, month, day, date, item, amount} = state;
         const itemDetails = {name: item, amount, date, type: radio, user: userId};
-        const recurrence = {frequency, interval, dayOfWeek: days, dayOfMonth: day};
+        const recurrence = {frequency, interval, month, dayOfWeek: days, dayOfMonth: day, };
         const data = {startDate: date, recurrence, taskDetails:itemDetails, user:userId};
         const response = await axios.post(`http://localhost:5000/users/${userId}/items-recurring`, data);
         if(response)

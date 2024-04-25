@@ -1,26 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
-import MuiTableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
-import TableSortLabel from "@material-ui/core/TableSortLabel";
 import TableRow from "@material-ui/core/TableRow";
-import SideDrawer from "../NavBars/SideDrawer";
-import EditTwoToneIcon from "@material-ui/icons/EditTwoTone";
-import { Box, Fab, Menu, MenuItem, Divider } from "@material-ui/core";
-import { withStyles } from "@material-ui/styles";
-import EditItemDialog from "../forms/EditItem";
+import { Box, Menu, MenuItem, Divider } from "@material-ui/core";
 import Item from "./itemRow";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import jwt_decode from "jwt-decode";
 import LocalPrintshopTwoToneIcon from "@material-ui/icons/LocalPrintshopTwoTone";
-import IconButton from "@material-ui/core/IconButton";
 import { PrintPDF } from "../../utils/createPDF";
 
 const useStyles = makeStyles((theme) => ({
@@ -62,6 +53,20 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: 440,
     marginTop: theme.spacing(10),
     maxWidth: 1080,
+      overflowY: "auto",
+      '&::-webkit-scrollbar': {
+        width: '0.5em'
+      },
+      '&::-webkit-scrollbar-track': {
+        boxShadow: 'inset 0 0 1px rgba(0,0,0, 0.25)',
+        webkitBoxShadow: 'inset 0 0 6px rgba(0,0,0,0.25)'
+      },
+      '&::-webkit-scrollbar-thumb': {
+        backgroundColor: 'rgba(245, 245, 245, 0.4)',
+        borderRadius: '10px',
+        outline: '1px solid slategrey rounded'
+      }
+    
   },
   fabStyle: {
     height: "20",
@@ -130,6 +135,7 @@ function ItemsTable({ year, month, userId }) {
   const history = useNavigate();
   useEffect(() => {
     async function getAllItems() {
+      try{
       const response = await axios.get(
         `http://localhost:5000/users/${userId}/items`
       );
@@ -142,7 +148,13 @@ function ItemsTable({ year, month, userId }) {
           });
           setData(diaryData);
         }
-      } else console.log("Error fetching data");
+      } }
+      catch(error){  if (error.response) {
+        console.error('Error status:', error.response.status);
+      } else {
+        console.error('Unexpected error:', error);
+      }
+    }
     }
     getAllItems();
   }, [updated]);
@@ -262,9 +274,11 @@ function ItemsTable({ year, month, userId }) {
               <TableCell
                 className={styles.fontsummary}
                 align="left"
-                component="blockquote"
+                
               >
+                <blockquote>
                 Subtotal (Expenses):
+                </blockquote>
               </TableCell>
               <TableCell className={styles.fontsummary}>
                 ₹ {expenseSubtotal.toFixed(2)}
@@ -275,9 +289,11 @@ function ItemsTable({ year, month, userId }) {
               <TableCell
                 className={styles.fontsummary}
                 align="left"
-                component="blockquote"
+                
               >
+                <blockquote>
                 Subtotal (Income):
+                </blockquote>
               </TableCell>
               <TableCell className={styles.fontsummary}>
                 ₹ {incomeSubtotal.toFixed(2)}

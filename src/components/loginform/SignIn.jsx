@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
   },
   paperRoot: {
-      backgroundColor: theme.palette.grey[200]
+    backgroundColor: theme.palette.grey[200]
   },
   image: {
     backgroundImage: 'url(https://source.unsplash.com/random)',
@@ -75,18 +75,20 @@ export default function SignIn() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try{
-    const response = await axios.post("login", {email, password});
-    if(response)
-    {
-      const { user, token } = response.data;
-      console.log(user)
-      console.log(response.data);
-      localStorage.setItem("authToken", token);
-     window.location.href = "/dashboard";
-      //navigate("/dashboard");
-    }}
-    catch(err){
+    try {
+      const response = await axios.post("login", { email, password });
+      if (response) {
+        const { user, token, refreshToken } = response.data;
+        console.log(user)
+        console.log(response.data);
+        localStorage.setItem("authToken", token);
+        localStorage.setItem('refreshToken', refreshToken);
+        if (user)
+          window.location.href = "/dashboard";
+        //navigate("/dashboard");
+      }
+    }
+    catch (err) {
       setAlert(err.response.data.error);
       showAlert(true);
     }
@@ -106,18 +108,18 @@ export default function SignIn() {
           </Typography>
           {alert && <Alert severity='error'>{alertMsg}</Alert>}
           <form className={classes.form} noValidate>
-            <TextField variant="outlined" margin="normal" required fullWidth id="email" label="Email Address" name="email" autoComplete="email" autoFocus value={email} onChange={(e)=>setEmail(e.target.value)}/>
-            <TextField variant="outlined" margin="normal" required fullWidth name="password" label="Password" type="password" id="password" autoComplete="current-password" value={password} onChange={(e)=>setPassword(e.target.value)}/>
-            <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me"/>
+            <TextField variant="outlined" margin="normal" required fullWidth id="email" label="Email Address" name="email" autoComplete="email" autoFocus value={email} onChange={(e) => setEmail(e.target.value)} />
+            <TextField variant="outlined" margin="normal" required fullWidth name="password" label="Password" type="password" id="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
             <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} onClick={handleSubmit}>Sign In</Button>
           </form>
 
-            <Grid container>
-              <Grid item xs><Link href="/forgot" variant="body2">Forgot password?</Link></Grid>
-              <Grid item><Link href="/signup" variant="body2">{"Don't have an account? Sign Up"}</Link></Grid>
-            </Grid>
-            <Box mt={5}><Copyright /></Box>
-          
+          <Grid container>
+            <Grid item xs><Link href="/forgot" variant="body2">Forgot password?</Link></Grid>
+            <Grid item><Link href="/signup" variant="body2">{"Don't have an account? Sign Up"}</Link></Grid>
+          </Grid>
+          <Box mt={5}><Copyright /></Box>
+
         </div>
       </Grid>
     </Grid>

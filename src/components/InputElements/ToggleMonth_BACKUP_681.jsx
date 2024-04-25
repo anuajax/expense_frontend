@@ -26,7 +26,11 @@ const ToggleMonth = ({ monthsEnum, handleChange, month, day }) => {
                     )}
                 </Select>
             </FormControl>
+<<<<<<< HEAD
+            <TextField type='number' value={day} onChange={handleChange} label={'On Day'} />
+=======
             <TextField type='number' name='day' value={day} onChange={handleChange} label={'On Day'} />
+>>>>>>> auth
         </>
     )
 }
