@@ -23,7 +23,7 @@ const EditItemDialog = ({
 
   const updateItem = async (rowId, name, amount, date) => {
     const response = await axios.put(
-      `http://localhost:5000/users/${userId}/items/${rowId}/edit`,
+      `/users/${userId}/items/${rowId}/edit`,
       { name, amount, date }
     );
     if (response) console.log(response.data);

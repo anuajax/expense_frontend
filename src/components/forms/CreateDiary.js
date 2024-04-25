@@ -24,7 +24,7 @@ export default function CreateDiary({ updated, setUpdated, userId }) {
   };
   async function handleSubmit(e) {
     e.preventDefault();
-    const response = await axios.post(`http://localhost:5000/users/${userId}/diaries/new`, { year:year });
+    const response = await axios.post(`/users/${userId}/diaries/new`, { year:year });
     if(response) alert(response.data);
     handleClose();
     setUpdated(!updated);

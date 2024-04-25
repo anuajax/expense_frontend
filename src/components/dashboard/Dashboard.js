@@ -161,7 +161,7 @@ export default function Dashboard({name, userId, setText}) {
   useEffect(() => {
     async function getData() {
       setText('Dashboard');
-        const response = await axios.get(`http://localhost:5000/users/${userId}/items`);
+        const response = await axios.get(`/users/${userId}/items`);
         if(response) setData(response.data);
         else console.log('Error fetching data');
         const response_news  = await axios.get("https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=b511741219fe4f9284ff6bb5f9874e97", {withCredentials: false});

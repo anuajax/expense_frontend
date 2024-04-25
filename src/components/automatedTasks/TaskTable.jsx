@@ -61,7 +61,7 @@ const TaskTable = ({ userId, setText }) => {
   useEffect(() => {
     async function getAllItems() {
       const response = await axios.get(
-        `http://localhost:5000/users/${userId}/items-recurring`
+        `/users/${userId}/items-recurring`
       );
       if (response) {
         setRows(response.data);

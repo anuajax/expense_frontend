@@ -8,7 +8,7 @@ const withDelete = (WrappedComponent) => {
 
     const handleDelete = async (id) => {
       try {
-        const response = await axios.delete(`http://localhost:5000/users/${props.userId}/items-recurring/${id}`);
+        const response = await axios.delete(`/users/${props.userId}/items-recurring/${id}`);
         console.log(response.data);
         alert("Task Item deleted");
         props.setTableUpdated(!props.tableUpdated);
