@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: '#f0f0f0', // Optional: change background color on hover
     },
   },
-  spinner: { marginTop: theme.spacing(20) }
+  spinner: { marginTop: theme.spacing(12) }
 }));
 
 const TaskTable = ({ userId, setText }) => {
