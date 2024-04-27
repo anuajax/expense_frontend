@@ -6,7 +6,7 @@ import TableRowItemWithDelete from './TableRowItem';
 import axios from 'axios';
 import RecurringItemModal from '../forms/RecurringItemModal';
 import { Alert } from '@material-ui/lab';
-import './spinner.css';
+import './spinner1.css';
 
 const useStyles = makeStyles((theme) => ({
   glassTableContainer: {
@@ -103,33 +103,42 @@ const TaskTable = ({ userId, setText }) => {
     setModalOpen(false);
     setTableUpdated(!tableUpdated);
   }
-  if (loading) {
-    return <Box className={styles.spinner}><div className="loader"></div></Box>
+  function renderTable() {
+    if (loading) {
+      return <Box className={styles.spinner}><div className="loader"></div></Box>
+    }
+    else if (error) {
+      return <Box className={styles.spinner}><div>Error: {error}</div></Box>;
+    }
+    else if (rows.length === 0) {
+      return <Alert style={{ margin: '2em' }} severity='info'>Nothing Here ! Try Adding a new Item.</Alert>
+    }
+    else if (rows.length > 0) {
+      return <TableContainer component={Paper} className={styles.glassTableContainer}>
+        <Table aria-label="simple table" className={styles.table}>
+          <TableHead>
+            <TableRow className={styles.tableheadrow}>
+              {columns.map(col => <TableCell key={col.id} align={col.align} style={{ minWidth: col.minWidth }}>{col.label}</TableCell>)}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map((row) => (
+              <TableRowItemWithDelete key={row._id} userId={userId} columns={columns} row={row} tableUpdated={tableUpdated} setTableUpdated={setTableUpdated} isModalOpen={isModalOpen} setModalOpen={setModalOpen} handleCloseModal={handleCloseModal} />
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    }
   }
-  if (error) {
-    return <Box className={styles.spinner}><div>Error: {error}</div></Box>;
-  }
+
+
   return (
     <Paper className={styles.paper}>
       <Fab aria-label="add" onClick={() => setModalOpen(true)}>
         <AddIcon />
       </Fab>
       <RecurringItemModal userId={userId} isModalOpen={isModalOpen} handleCloseModal={handleCloseModal} tableUpdated={tableUpdated} setTableUpdated={setTableUpdated} />
-      {rows.length === 0 ? <Alert style={{ margin: '2em' }} severity='info'>Nothing Here ! Try Adding a new Item.</Alert> :
-        <TableContainer component={Paper} className={styles.glassTableContainer}>
-          <Table aria-label="simple table" className={styles.table}>
-            <TableHead>
-              <TableRow className={styles.tableheadrow}>
-                {columns.map(col => <TableCell key={col.id} align={col.align} style={{ minWidth: col.minWidth }}>{col.label}</TableCell>)}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row) => (
-                <TableRowItemWithDelete key={row._id} userId={userId} columns={columns} row={row} tableUpdated={tableUpdated} setTableUpdated={setTableUpdated} isModalOpen={isModalOpen} setModalOpen={setModalOpen} handleCloseModal={handleCloseModal} />
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>}
+      {renderTable()}
     </Paper>
   );
 };
