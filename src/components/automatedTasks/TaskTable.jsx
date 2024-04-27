@@ -105,7 +105,7 @@ const TaskTable = ({ userId, setText }) => {
   }
   function renderTable() {
     if (loading) {
-      return <Box className={styles.spinner}><div className="loader"></div></Box>
+      return <Box className={styles.spinner}><div className="taskloader"></div></Box>
     }
     else if (error) {
       return <Box className={styles.spinner}><div>Error: {error}</div></Box>;
