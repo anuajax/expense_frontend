@@ -160,12 +160,17 @@ export default function Dashboard({name, userId, setText}) {
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   useEffect(() => {
     async function getData() {
-      setText('Dashboard');
+        setText('Dashboard');
+        try{
         const response = await axios.get(`https://expenses-8tag.onrender.com/users/${userId}/items`, {withCredentials: true});
         if(response) setData(response.data);
         else console.log('Error fetching data');
         const response_news  = await axios.get(`https://expenses-8tag.onrender.com/api/news`);
         setNews(response_news.data.articles);
+        }
+        catch(error){
+          console.log(error)
+        }
     }
     getData();
   }, []);
