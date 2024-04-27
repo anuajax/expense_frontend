@@ -6,6 +6,7 @@ import TableRowItemWithDelete from './TableRowItem';
 import axios from 'axios';
 import RecurringItemModal from '../forms/RecurringItemModal';
 import { Alert } from '@material-ui/lab';
+import '../items/spinner.css';
 
 const useStyles = makeStyles((theme) => ({
   glassTableContainer: {
@@ -51,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: '#f0f0f0', // Optional: change background color on hover
     },
   },
+  spinner: { marginTop: theme.spacing(20) }
 }));
 
 const TaskTable = ({ userId, setText }) => {
@@ -58,18 +60,30 @@ const TaskTable = ({ userId, setText }) => {
   const [rows, setRows] = useState([]);
   const [tableUpdated, setTableUpdated] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   useEffect(() => { setText('Recurring Items') }, [])
   useEffect(() => {
     async function getAllItems() {
-      const response = await axios.get(
-        `https://expenses-8tag.onrender.com/users/${userId}/items-recurring`, { withCredentials: true }
-      );
-      if (response) {
-        setRows(response.data);
-        console.log(rows);
+      setLoading(true);
+      try {
+        setError(null);
+        const response = await axios.get(
+          `https://expenses-8tag.onrender.com/users/${userId}/items-recurring`, { withCredentials: true }
+        );
+        if (response) {
+          setRows(response.data);
+          console.log(rows);
+        }
+        else console.log("Error fetching data");
       }
-      else console.log("Error fetching data");
-
+      catch (error) {
+        console.error(error);
+        setError(error.response.data.error)
+      }
+      finally {
+        setLoading(false)
+      }
     }
     getAllItems();
   }, [tableUpdated]);
@@ -89,7 +103,12 @@ const TaskTable = ({ userId, setText }) => {
     setModalOpen(false);
     setTableUpdated(!tableUpdated);
   }
-
+  if (loading) {
+    return <Box className={styles.spinner}><div className="loader"></div></Box>
+  }
+  if (error) {
+    return <Box className={styles.spinner}><div>Error: {error}</div></Box>;
+  }
   return (
     <Paper className={styles.paper}>
       <Fab aria-label="add" onClick={() => setModalOpen(true)}>
