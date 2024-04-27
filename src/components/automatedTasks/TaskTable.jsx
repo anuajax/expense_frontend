@@ -6,7 +6,7 @@ import TableRowItemWithDelete from './TableRowItem';
 import axios from 'axios';
 import RecurringItemModal from '../forms/RecurringItemModal';
 import { Alert } from '@material-ui/lab';
-import '../items/spinner.css';
+import './spinner.css';
 
 const useStyles = makeStyles((theme) => ({
   glassTableContainer: {
