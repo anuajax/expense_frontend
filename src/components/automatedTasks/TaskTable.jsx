@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import TableRowItemWithDelete from './TableRowItem';
 import axios from 'axios';
 import RecurringItemModal from '../forms/RecurringItemModal';
+import { Alert } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
   glassTableContainer: {
@@ -95,7 +96,7 @@ const TaskTable = ({ userId, setText }) => {
         <AddIcon />
       </Fab>
       <RecurringItemModal userId={userId} isModalOpen={isModalOpen} handleCloseModal={handleCloseModal} tableUpdated={tableUpdated} setTableUpdated={setTableUpdated} />
-      {rows.length === 0 ? <div style={{ 'padding': '10px' }} className={styles.glassTableContainer}>Nothing Here ! Try Adding a new Item.</div> :
+      {rows.length === 0 ? <Alert style={{ margin: '2em' }} severity='info'>Nothing Here ! Try Adding a new Item.</Alert> :
         <TableContainer component={Paper} className={styles.glassTableContainer}>
           <Table aria-label="simple table" className={styles.table}>
             <TableHead>
