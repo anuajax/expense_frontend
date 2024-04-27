@@ -102,6 +102,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "18px",
     fontWeight: "700",
   },
+  spinner: {
+    marginTop: theme.spacing(10)
+  }
 }));
 
 const columns = [
@@ -120,6 +123,7 @@ const columns = [
     format: (value) => value,
   },
   { id: "edit", label: "Edit", minWidth: 140, align: "right" },
+  
 ];
 
 function ItemsTable({ year, month, userId }) {
@@ -228,10 +232,10 @@ function ItemsTable({ year, month, userId }) {
     );
   const handlePrint = () => setDataToPrint(data);
   if (loading) {
-    return <Box className={styles.tablecontainer}><div className="loader"></div></Box>
+    return <Box className={styles.spinner}><div className="loader"></div></Box>
   }
   if (error) {
-    return <Box className={styles.tablecontainer}><div>Error: {error}</div></Box>;
+    return <Box className={styles.spinner}><div>Error: {error}</div></Box>;
   }
   return (
     <>
