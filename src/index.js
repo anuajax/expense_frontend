@@ -7,8 +7,8 @@ import { BrowserRouter } from 'react-router-dom';
 import axios from 'axios';
 
 axios.defaults.baseURL = 'https://expenses-8tag.onrender.com';
-axios.defaults.withCredentials=true;
-// axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('authToken');
+//axios.defaults.withCredentials=true;
+axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('authToken');
 // const api = axios.create({
 //   baseURL: 'http://localhost:5000/',
 //   headers: {'Content-Type': 'application/json'}
