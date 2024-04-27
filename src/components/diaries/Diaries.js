@@ -48,7 +48,7 @@ const Diaries = ({userId, setText}) => {
       async function getDiaries()
       {
         setText('Diaries')
-        const response = await axios.get(`/users/${userId}/diaries`);
+        const response = await axios.get(`https://expenses-8tag.onrender.com/users/${userId}/diaries`);
         if(response){
           console.log(response.data);
         setDiaries(response.data);

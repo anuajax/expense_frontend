@@ -51,7 +51,7 @@ const NewPassword = () => {
      
     try {
     const pass = {newPassword, confirmNewPassword};
-    const response = await axios.post(`/resetpass/${token}`,  pass);
+    const response = await axios.post(`https://expenses-8tag.onrender.com/resetpass/${token}`,  pass);
     if(response) 
         setError(response.data);
         setPassword('');

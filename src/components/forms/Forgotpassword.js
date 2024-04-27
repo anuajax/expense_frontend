@@ -64,7 +64,7 @@ const Forgotpassword = () => {
     const handleSubmit = async (e) => {
      e.preventDefault();
     try {
-    const response = await axios.post('/forgot',  {email: email});
+    const response = await axios.post('https://expenses-8tag.onrender.com/forgot',  {email: email});
         if(response.status === 200){
             showAlert(true);
             setAlertType('success');

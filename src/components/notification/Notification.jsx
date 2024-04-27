@@ -52,7 +52,7 @@ const Notification = ({ userId, setText }) => {
 
         const getNotifications = async () => {
             try {
-                const response = await axios.get(`/users/${userId}/notifications`);
+                const response = await axios.get(`https://expenses-8tag.onrender.com/users/${userId}/notifications`);
                 console.log(altText);
                 if (response) {
                     setNotifications(response.data);

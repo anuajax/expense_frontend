@@ -125,7 +125,7 @@ const checkFilledI = (itemI,amountI,dateI) => !itemI.trim() && !amountI.trim() &
 
   async function postRequest(formdata) {
     const response = await axios.post(
-      `/users/${userId}/items/new`,
+      `https://expenses-8tag.onrender.com/users/${userId}/items/new`,
       formdata
     );
     if (response) return response.data;

@@ -76,7 +76,7 @@ export default function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("login", { email, password });
+      const response = await axios.post("https://expenses-8tag.onrender.com/login", { email, password });
       if (response) {
         const { user, token, refreshToken } = response.data;
         console.log(user)
