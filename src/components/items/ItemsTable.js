@@ -13,6 +13,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import LocalPrintshopTwoToneIcon from "@material-ui/icons/LocalPrintshopTwoTone";
 import { PrintPDF } from "../../utils/createPDF";
+import './spinner.css'
 
 const useStyles = makeStyles((theme) => ({
   roott: {
@@ -133,9 +134,14 @@ function ItemsTable({ year, month, userId }) {
   const [print, setPrint] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const history = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
   useEffect(() => {
     async function getAllItems() {
+      setLoading(true);
       try{
+        setError(null);
       const response = await axios.get(
         `https://expenses-8tag.onrender.com/users/${userId}/items`, {withCredentials: true}
       );
@@ -154,6 +160,9 @@ function ItemsTable({ year, month, userId }) {
       } else {
         console.error('Unexpected error:', error);
       }
+    }
+    finally{
+      setLoading(false);
     }
     }
     getAllItems();
@@ -218,6 +227,12 @@ function ItemsTable({ year, month, userId }) {
       data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
     );
   const handlePrint = () => setDataToPrint(data);
+  if (loading) {
+    return <div className="loader"></div>;
+  }
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
   return (
     <>
       <TableContainer className={styles.tablecontainer}>
