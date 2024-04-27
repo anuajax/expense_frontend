@@ -24,7 +24,7 @@ export default function CreateDiary({ updated, setUpdated, userId }) {
   };
   async function handleSubmit(e) {
     e.preventDefault();
-    const response = await axios.post(`https://expenses-8tag.onrender.com/users/${userId}/diaries/new`, { year:year });
+    const response = await axios.post(`https://expenses-8tag.onrender.com/users/${userId}/diaries/new`, { year:year }, {withCredentials: true});
     if(response) alert(response.data);
     handleClose();
     setUpdated(!updated);

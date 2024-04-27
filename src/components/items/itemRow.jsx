@@ -32,7 +32,7 @@ const Item = ({ columns, row, editingDone, updated, userId }) => {
   const [isEditing, toggleIsEditing] = useToggle(false);
 
   async function handleDelete() {
-    const response = await axios.delete(`https://expenses-8tag.onrender.com/users/${userId}/items/${row._id}/delete`);
+    const response = await axios.delete(`https://expenses-8tag.onrender.com/users/${userId}/items/${row._id}/delete`, { withCredentials: true });
     if (response) {
       console.log(response.data);
       alert(response.data);

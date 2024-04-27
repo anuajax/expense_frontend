@@ -93,7 +93,7 @@ const ModalForm = (props) => {
         const itemDetails = {name: item, amount, date, type: type, user};
         const recurrence = {frequency, interval, dayOfWeek: days, dayOfMonth: day};
         const data = {startDate: date, recurrence, taskDetails:itemDetails, user};
-        const response = await axios.post(`https://expenses-8tag.onrender.com/users/${user}/items-recurring`, data);
+        const response = await axios.post(`https://expenses-8tag.onrender.com/users/${user}/items-recurring`, data, {withCredentials: true});
         if(response)
             {
                 props.handleCloseModal();

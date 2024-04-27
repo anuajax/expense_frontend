@@ -24,7 +24,7 @@ const EditItemDialog = ({
   const updateItem = async (rowId, name, amount, date) => {
     const response = await axios.put(
       `https://expenses-8tag.onrender.com/users/${userId}/items/${rowId}/edit`,
-      { name, amount, date }
+      { name, amount, date }, {withCredentials: true}
     );
     if (response) console.log(response.data);
   };

@@ -9,7 +9,7 @@ const ProfileEdit = ({item, toggleEditing, editingDone, updated, userId}) => {
      e.preventDefault();
      const name = value;
     try {
-    const response = await axios.post(`https://expenses-8tag.onrender.com/users/${userId}/profile/edit`,  {name});
+    const response = await axios.post(`https://expenses-8tag.onrender.com/users/${userId}/profile/edit`,  {name}, {withCredentials: true});
     toggleEditing();
     editingDone(!updated);
     }

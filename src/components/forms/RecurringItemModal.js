@@ -91,7 +91,7 @@ const RecurringItemModal = ({userId, isModalOpen, handleCloseModal, tableUpdated
         const itemDetails = {name: item, amount, date, type: radio, user: userId};
         const recurrence = {frequency, interval, month, dayOfWeek: days, dayOfMonth: day, };
         const data = {startDate: date, recurrence, taskDetails:itemDetails, user:userId};
-        const response = await axios.post(`https://expenses-8tag.onrender.com/users/${userId}/items-recurring`, data);
+        const response = await axios.post(`https://expenses-8tag.onrender.com/users/${userId}/items-recurring`, data, {withCredentials: true});
         if(response)
             {
                 handleCloseModal();

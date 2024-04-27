@@ -137,7 +137,7 @@ function ItemsTable({ year, month, userId }) {
     async function getAllItems() {
       try{
       const response = await axios.get(
-        `/users/${userId}/items`
+        `https://expenses-8tag.onrender.com/users/${userId}/items`, {withCredentials: true}
       );
       if (response) {
         if (year === 0) setData(response.data);
