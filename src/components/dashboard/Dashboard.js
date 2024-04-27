@@ -165,16 +165,25 @@ export default function Dashboard({name, userId, setText}) {
         const response = await axios.get(`https://expenses-8tag.onrender.com/users/${userId}/items`, {withCredentials: true});
         if(response) setData(response.data);
         else console.log('Error fetching data');
-        const response_news  = await axios.get(`https://expenses-8tag.onrender.com/api/news`);
-        setNews(response_news.data.data);
         }
         catch(error){
-          console.error(error.response);
-          
+          console.error(error.response);   
         }
     }
     getData();
   }, []);
+
+  useEffect(() => {
+    async function getNews() {
+      try {
+        const response_news  = await axios.get(`https://expenses-8tag.onrender.com/api/news`);
+        setNews(response_news.data.data);
+      } catch (error) {
+        console.error(error.response.data.error);
+      }
+    }
+    getNews();
+  }, [userId]);
 
   return (
         
