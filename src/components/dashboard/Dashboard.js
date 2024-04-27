@@ -166,7 +166,7 @@ export default function Dashboard({name, userId, setText}) {
         if(response) setData(response.data);
         else console.log('Error fetching data');
         const response_news  = await axios.get(`https://expenses-8tag.onrender.com/api/news`);
-        setNews(response_news.data.articles);
+        setNews(response_news.data);
         }
         catch(error){
           console.log(error)
