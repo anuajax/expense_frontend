@@ -228,10 +228,10 @@ function ItemsTable({ year, month, userId }) {
     );
   const handlePrint = () => setDataToPrint(data);
   if (loading) {
-    return <div className="loader"></div>;
+    return <Box className={styles.tablecontainer}><div className="loader"></div></Box>
   }
   if (error) {
-    return <div>Error: {error}</div>;
+    return <Box className={styles.tablecontainer}><div>Error: {error}</div></Box>;
   }
   return (
     <>
