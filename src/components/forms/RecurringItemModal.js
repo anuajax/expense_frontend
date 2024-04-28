@@ -80,7 +80,7 @@ const RecurringItemModal = ({userId, isModalOpen, handleCloseModal, tableUpdated
         if (state.frequency==='Week') 
             return <ToggleDays days={days} setDays={setDays}/>;
         else if(state.frequency==='Month')
-            return <TextField type="number" name='day' value={state.day} onChange={handleChange} label='On Day'/>
+            return <TextField type="number" name='day' value={state.day} onChange={handleChange} label='On Day' required/>
         else if(state.frequency==='Year')
           return <ToggleMonth handleChange={handleChange} monthsEnum={monthsEnum} month={state.month} day={state.day}/>
       }
@@ -108,7 +108,7 @@ const RecurringItemModal = ({userId, isModalOpen, handleCloseModal, tableUpdated
         frequency: 'Day',
         interval: 1,
         month: '',
-        day: null,
+        day: 1,
         item: '',
         amount: '',
         date: ''

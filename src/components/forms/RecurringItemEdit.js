@@ -84,7 +84,7 @@ const RecurringItemEdit = ({userId, tableUpdated, setTableUpdated, isEditing, se
         if (state.frequency==='Week') 
             return <ToggleDays days={days} setDays={setDays}/>;
         else if(state.frequency==='Month')
-            return <TextField type="number" name='day' value={state.day} onChange={handleChange} label='On Day'/>
+            return <TextField type="number" name='day' value={state.day} onChange={handleChange} label='On Day' required/>
         else if(state.frequency==='Year')
           return <ToggleMonth handleChange={handleChange} monthsEnum={monthsEnum} month={state.month} day={state.day}/>
       }
