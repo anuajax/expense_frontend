@@ -215,7 +215,7 @@ const checkFilledI = (itemI,amountI,dateI) => !itemI.trim() && !amountI.trim() &
                 />
                 <FormControlLabel
                   control={
-                    <Switch
+                    <Switch disabled
                       checked={switchChecked.checkedE}
                       onChange={handleSwitchCheck}
                       name="checkedE"
@@ -304,7 +304,7 @@ const checkFilledI = (itemI,amountI,dateI) => !itemI.trim() && !amountI.trim() &
                 />
                  <FormControlLabel
                   control={
-                    <Switch
+                    <Switch disabled
                       checked={switchChecked.checkedI}
                       onChange={handleSwitchCheck}
                       name="checkedI"

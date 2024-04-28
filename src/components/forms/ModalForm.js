@@ -81,7 +81,7 @@ const ModalForm = (props) => {
         if (state.frequency==='Week') 
             return <ToggleDays/>;
         else if(state.frequency==='Month')
-            return <TextField type="number" label='On Day'/>
+            return <TextField type="number" label='On Day' value={state.day} name='day' required/>
         else if(state.frequency==='Year')
           return <ToggleMonth handleChange={handleChange} monthsEnum={monthsEnum} month={state.month} day={state.day}/>
       }
@@ -111,7 +111,7 @@ const ModalForm = (props) => {
             <div className={styles.form}>
             <TextField type="date" label="Start Date" name='date' value={state.date} nputLabelProps={{shrink: true}}/>
             <Box>
-            <TextField type="number" label='Repeat Every' name='interval' value={state.interval} onChange={handleChange}/>
+            <TextField type="number" label='Repeat Every' name='interval' value={state.interval} onChange={handleChange} required/>
             <FormControl className={styles.formControl}>
         <Select
           native
@@ -122,6 +122,7 @@ const ModalForm = (props) => {
             id: 'filled-age-native-simple',
           }}
         >
+          <option value={'Minute'}>Minute</option>
           <option value={'Day'}>Day</option>
           <option value={'Week'}>Week</option>
           <option value={'Month'}>Month</option>
