@@ -1,4 +1,4 @@
-import { Container, makeStyles, Paper } from '@material-ui/core';
+import { Container, makeStyles, Paper, Box } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { Alert } from '@material-ui/lab';
 const useStyles = makeStyles((theme) => ({
@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Report = ({ setText }) => {
+    const styles = useStyles();
     useEffect(() => setText('Report'), [])
     return (
         <Container maxWidth="lg" className={styles.container}>
