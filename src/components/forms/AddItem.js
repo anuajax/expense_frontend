@@ -23,6 +23,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
+import Tooltip from "@material-ui/core/Tooltip";
 import ModalForm from "./ModalForm";
 import clsx from 'clsx';
 
@@ -213,6 +214,7 @@ const checkFilledI = (itemI,amountI,dateI) => !itemI.trim() && !amountI.trim() &
                   margin="normal"
                   fullWidth
                 />
+                <Tooltip title="This option is disabled for now. you can use it from Add Recurring section">
                 <FormControlLabel
                   control={
                     <Switch disabled
@@ -224,6 +226,7 @@ const checkFilledI = (itemI,amountI,dateI) => !itemI.trim() && !amountI.trim() &
                   }
                   label="Make Recurring"
                 />
+                </Tooltip>
                 <Modal
                   open={modalOpen}
                   onClose={handleCloseModal}
@@ -302,6 +305,7 @@ const checkFilledI = (itemI,amountI,dateI) => !itemI.trim() && !amountI.trim() &
                   margin="normal"
                   fullWidth
                 />
+                  <Tooltip title="This option is disabled for now. you can use it from Add Recurring section">
                  <FormControlLabel
                   control={
                     <Switch disabled
@@ -312,7 +316,7 @@ const checkFilledI = (itemI,amountI,dateI) => !itemI.trim() && !amountI.trim() &
                     />
                   }
                   label="Make Recurring"
-                />
+                /></Tooltip>
                 <Modal
                   open={modalOpen}
                   onClose={handleCloseModal}
