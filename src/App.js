@@ -22,6 +22,7 @@ import UserProfile from "./components/dashboard/UserProfile";
 import NewPassword from "./components/forms/NewPassword";
 import TaskTable from "./components/automatedTasks/TaskTable";
 import Notification from './components/notification/Notification';
+import Report from "./components/reports/Report";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -158,6 +159,7 @@ function App() {
                   path="/profile"
                   element={<UserProfile user={user} />}
                 />
+                <Route path="/report" element={<Report setText={setText}/>}/>
                 <Route
                   path="*"
                   element={<Navigate to={user ? "/" : "/login"} />}

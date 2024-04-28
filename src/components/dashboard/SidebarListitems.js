@@ -62,7 +62,7 @@ const classes = useStyles();
       <ListItemIcon>
         <LayersIcon className={classes.icons}/>
       </ListItemIcon>
-      <ListItemText primary="Integrations" />
+      <ListItemText primary="Add Recurring" />
     </ListItem>
   </div>);
 }
@@ -72,19 +72,19 @@ export const SecondaryListItems = () => {
     return(
   <div>
     <ListSubheader inset className={classes.icons}>Saved reports</ListSubheader>
-    <ListItem button>
+    <ListItem button className={classes.listitem} component={Link} to ={'/report'}>
       <ListItemIcon>
-        <AssignmentIcon className={classes.icons}/>
+        <AssignmentIcon className={classes.icons} />
       </ListItemIcon>
       <ListItemText primary="Current month" />
     </ListItem>
-    <ListItem button>
+    <ListItem button className={classes.listitem} component={Link} to ={'/report'}>
       <ListItemIcon>
         <AssignmentIcon className={classes.icons}/>
       </ListItemIcon>
       <ListItemText primary="Last quarter" />
     </ListItem>
-    <ListItem button>
+    <ListItem button className={classes.listitem} component={Link} to ={'/report'}>
       <ListItemIcon>
         <AssignmentIcon className={classes.icons}/>
       </ListItemIcon>
